@@ -1,0 +1,6 @@
+export { default as SocialClever } from './SocialClever'
+export { default as SocialFacebook } from './SocialFacebook'
+export { default as SocialGoogle } from './SocialGoogle'
+export { default as SocialInstagram } from './SocialInstagram'
+export { default as SocialX } from './SocialX'
+export { default as SocialYoutube } from './SocialYoutube'

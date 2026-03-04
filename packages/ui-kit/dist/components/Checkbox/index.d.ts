@@ -1,0 +1,3 @@
+export { Checkbox } from './Checkbox.js';
+export type { CheckboxProps, CheckboxSize } from './Checkbox.types.js';
+//# sourceMappingURL=index.d.ts.map

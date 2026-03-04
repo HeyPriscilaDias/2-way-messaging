@@ -1,0 +1,31 @@
+{
+  "name": "@willow/icons",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "pnpm clean && pnpm build:icons && pnpm build:exports && tsc",
+    "build:icons": "svgr ./src/assets --out-dir ./src/components --typescript --ext tsx --icon --template ./svgr.template.cjs --no-prettier",
+    "build:exports": "node ./generate-exports.mjs",
+    "dev": "pnpm build:icons --watch",
+    "clean": "rm -rf dist src/components",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@svgr/cli": "^8.1.0",
+    "@types/react": "^18.3.3",
+    "glob": "^11.0.0",
+    "react": "^18.3.1",
+    "typescript": "^5.6.3"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  }
+}

@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  /* Willow Brand Colors - Slate Scale */
+  --slate-25: #F8FBFA;
+  --slate-50: #E9EFEE;
+  --slate-100: #D1DBDB;
+  --slate-200: #B1C0BE;
+  --slate-300: #8FA29F;
+  --slate-400: #6E8884;
+  --slate-500: #4C6A66;
+  --slate-600: #2B4C46;
+  --slate-700: #062F29;
+  --slate-800: #052622;
+  --slate-900: #041D1A;
+
+  /* Neutral Scale */
+  --neutral-25: #FFFFFF;
+  --neutral-50: #FAFAFA;
+  --neutral-100: #F5F5F5;
+  --neutral-200: #E9EAEB;
+  --neutral-300: #D5D7DA;
+  --neutral-400: #A4A7AE;
+  --neutral-500: #717680;
+  --neutral-600: #535862;
+  --neutral-700: #414651;
+  --neutral-800: #252B37;
+  --neutral-900: #181D27;
+
+  /* Semantic Colors */
+  --color-primary: var(--slate-700);
+  --color-surface: var(--slate-25);
+  --color-background: var(--slate-50);
+  --color-border: var(--neutral-300);
+
+  /* Theme */
+  --background: var(--color-background);
+  --foreground: var(--neutral-900);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-poppins);
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), "Inter", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 30px;
+  line-height: 36px;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 26px;
+  line-height: 32px;
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.005em;
+}
+
+h5, h6 {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+/* Scrollbar styling */
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--neutral-300) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--neutral-300);
+    border-radius: 4px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--neutral-400);
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "name": "@willow/ui-kit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/ui-kit.umd.js",
+  "module": "./dist/ui-kit.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/ui-kit.es.js",
+      "require": "./dist/ui-kit.umd.js"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "dev": "vite build --watch",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^7.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^4.1.1",
+    "@mui/material": "^7.1.2",
+    "@storybook/addon-a11y": "^9.1.6",
+    "@storybook/addon-docs": "^9.1.6",
+    "@storybook/addon-onboarding": "^9.1.6",
+    "@storybook/addon-vitest": "^9.1.6",
+    "@storybook/react-vite": "^9.1.6",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest-axe": "^3.5.9",
+    "@types/react": "^18.3.3",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/browser": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint-plugin-storybook": "^9.1.6",
+    "jest-axe": "^10.0.0",
+    "playwright": "^1.55.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "storybook": "^9.1.6",
+    "typescript": "^5.6.3",
+    "vite": "^5.3.1",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.6",
+    "@fontsource/poppins": "^5.2.6",
+    "@willow/icons": "file:../icons"
+  }
+}

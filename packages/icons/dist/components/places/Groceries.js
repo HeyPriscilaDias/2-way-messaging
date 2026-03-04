@@ -1,0 +1,14 @@
+import { jsx as _jsx } from "react/jsx-runtime";
+import * as React from 'react'; // We've added the optional 'color' prop to this interface for type safety.
+const SvgGroceries = React.forwardRef(({ size = 24, color = 'currentColor', ...props }, ref) => React.cloneElement(_jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: "1em", height: "1em", fill: "none", viewBox: "0 0 24 24", ...props, children: _jsx("path", { stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5, d: "M17.625 17.25H8.547a1.5 1.5 0 0 1-1.475-1.232L4.568 2.25H2.25m15.375 15a1.875 1.875 0 1 0 0 3.75 1.875 1.875 0 0 0 0-3.75M6.615 13.5h11.77a1.5 1.5 0 0 0 1.475-1.232L21 6H5.25m5.25 13.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0" }) }), {
+    ...props,
+    ref,
+    width: size,
+    height: size,
+    style: {
+        ...props.style,
+        color: color
+    }
+}));
+SvgGroceries.displayName = "SvgGroceries";
+export default SvgGroceries;

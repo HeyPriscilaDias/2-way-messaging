@@ -1,0 +1,5 @@
+export { default as ChatCircle } from './ChatCircle'
+export { default as ChatsCircle } from './ChatsCircle'
+export { default as Mail } from './Mail'
+export { default as Phone } from './Phone'
+export { default as Quotes } from './Quotes'

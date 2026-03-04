@@ -1,0 +1,127 @@
+{
+  "$schema": "./figma-tokens.schema.json",
+  "description": "Color tokens exported from Figma file q0ZgDEswbJLXOerrCYUp1M",
+  "lastUpdated": "2025-10-15",
+  "colors": {
+    "primitives": {
+      "neutral": {
+        "25": { "value": "#FFFFFF", "name": "White" },
+        "50": { "value": "#FAFAFA", "name": "Neutral-50" },
+        "100": { "value": "#F5F5F5", "name": "Neutral-100" },
+        "200": { "value": "#E9EAEB", "name": "Neutral-200" },
+        "300": { "value": "#D5D7DA", "name": "Neutral-300" },
+        "400": { "value": "#A4A7AE", "name": "Neutral-400" },
+        "500": { "value": "#717680", "name": "Neutral-500" },
+        "600": { "value": "#535862", "name": "Neutral-600" },
+        "700": { "value": "#414651", "name": "Neutral-700" },
+        "800": { "value": "#252B37", "name": "Neutral-800" },
+        "900": { "value": "#181D27", "name": "Neutral-900" }
+      },
+      "slate": {
+        "25": { "value": "#F8FBFA", "name": "Slate-25" },
+        "50": { "value": "#E9EFEE", "name": "Slate-50" },
+        "100": { "value": "#D1DBDB", "name": "Slate-100" },
+        "200": { "value": "#B1C0BE", "name": "Slate-200" },
+        "300": { "value": "#8FA29F", "name": "Slate-300" },
+        "400": { "value": "#6E8884", "name": "Slate-400" },
+        "500": { "value": "#4C6A66", "name": "Slate-500" },
+        "600": { "value": "#2B4C46", "name": "Slate-600" },
+        "700": { "value": "#062F29", "name": "Slate-700" },
+        "800": { "value": "#052622", "name": "Slate-800" },
+        "900": { "value": "#041D1A", "name": "Slate-900" }
+      },
+      "mint": {
+        "25": { "value": "#D8FBDB", "name": "Mint-25" },
+        "50": { "value": "#ACF7B2", "name": "Mint-50" },
+        "100": { "value": "#9AE8A1", "name": "Mint-100" },
+        "200": { "value": "#8FD695", "name": "Mint-200" },
+        "300": { "value": "#6EA272", "name": "Mint-300" },
+        "400": { "value": "#557D58", "name": "Mint-400" },
+        "500": { "value": "#415E43", "name": "Mint-500" },
+        "600": { "value": "#2E4230", "name": "Mint-600" },
+        "700": { "value": "#1B251C", "name": "Mint-700" },
+        "800": { "value": "#141A14", "name": "Mint-800" },
+        "900": { "value": "#0F120F", "name": "Mint-900" }
+      },
+      "green": {
+        "25": { "value": "#E9F4EF", "name": "Green-25" },
+        "50": { "value": "#D2E9DD", "name": "Green-50" },
+        "100": { "value": "#B9DECB", "name": "Green-100" },
+        "200": { "value": "#9ED0B6", "name": "Green-200" },
+        "300": { "value": "#4EA778", "name": "Green-300" },
+        "400": { "value": "#328358", "name": "Green-400" },
+        "500": { "value": "#266242", "name": "Green-500" },
+        "600": { "value": "#1D4430", "name": "Green-600" },
+        "700": { "value": "#13271C", "name": "Green-700" },
+        "800": { "value": "#0E1B14", "name": "Green-800" },
+        "900": { "value": "#0B130F", "name": "Green-900" }
+      },
+      "blue": {
+        "25": { "value": "#F6FCFF", "name": "Blue-25" },
+        "50": { "value": "#F0FBFE", "name": "Blue-50" },
+        "100": { "value": "#E2FAFF", "name": "Blue-100" },
+        "200": { "value": "#B8F2FE", "name": "Blue-200" },
+        "300": { "value": "#7BDFFD", "name": "Blue-300" },
+        "400": { "value": "#37CFFB", "name": "Blue-400" },
+        "500": { "value": "#0BB6EC", "name": "Blue-500" },
+        "600": { "value": "#0097C9", "name": "Blue-600" },
+        "700": { "value": "#0278A2", "name": "Blue-700" },
+        "800": { "value": "#056486", "name": "Blue-800" },
+        "900": { "value": "#094961", "name": "Blue-900" }
+      },
+      "lavender": {
+        "25": { "value": "#F5F8FF", "name": "Lavender-25" },
+        "50": { "value": "#EFF3FF", "name": "Lavender-50" },
+        "100": { "value": "#E0EBFF", "name": "Lavender-100" },
+        "200": { "value": "#C6D7FD", "name": "Lavender-200" },
+        "300": { "value": "#A5BCFD", "name": "Lavender-300" },
+        "400": { "value": "#7F99F9", "name": "Lavender-400" },
+        "500": { "value": "#6072F2", "name": "Lavender-500" },
+        "600": { "value": "#434CE6", "name": "Lavender-600" },
+        "700": { "value": "#3538CD", "name": "Lavender-700" },
+        "800": { "value": "#2E31A7", "name": "Lavender-800" },
+        "900": { "value": "#2D3383", "name": "Lavender-900" }
+      },
+      "pink": {
+        "25": { "value": "#FEF6FB", "name": "Pink-25" },
+        "50": { "value": "#FDF3FB", "name": "Pink-50" },
+        "100": { "value": "#FBE7F5", "name": "Pink-100" },
+        "200": { "value": "#FCCEEE", "name": "Pink-200" },
+        "300": { "value": "#F9A7E0", "name": "Pink-300" },
+        "400": { "value": "#F670C6", "name": "Pink-400" },
+        "500": { "value": "#EE46BC", "name": "Pink-500" },
+        "600": { "value": "#DD2691", "name": "Pink-600" },
+        "700": { "value": "#C21574", "name": "Pink-700" },
+        "800": { "value": "#9F165F", "name": "Pink-800" },
+        "900": { "value": "#861552", "name": "Pink-900" }
+      },
+      "red": {
+        "25": { "value": "#FFFBFB", "name": "Red-25" },
+        "50": { "value": "#FFF4F3", "name": "Red-50" },
+        "100": { "value": "#FDE4E1", "name": "Red-100" },
+        "200": { "value": "#FECDC9", "name": "Red-200" },
+        "300": { "value": "#FCA39A", "name": "Red-300" },
+        "400": { "value": "#F97065", "name": "Red-400" },
+        "500": { "value": "#EF4437", "name": "Red-500" },
+        "600": { "value": "#DA2D21", "name": "Red-600" },
+        "700": { "value": "#B52218", "name": "Red-700" },
+        "800": { "value": "#932019", "name": "Red-800" },
+        "900": { "value": "#7A281B", "name": "Red-900" }
+      },
+      "yellow": {
+        "25": { "value": "#FFFDF5", "name": "Yellow-25" },
+        "50": { "value": "#FFFBEC", "name": "Yellow-50" },
+        "100": { "value": "#FEF0C8", "name": "Yellow-100" },
+        "200": { "value": "#FEDF8A", "name": "Yellow-200" },
+        "300": { "value": "#FEC74A", "name": "Yellow-300" },
+        "400": { "value": "#FDB022", "name": "Yellow-400" },
+        "500": { "value": "#F79008", "name": "Yellow-500" },
+        "600": { "value": "#DB6802", "name": "Yellow-600" },
+        "700": { "value": "#B54708", "name": "Yellow-700" },
+        "800": { "value": "#94370D", "name": "Yellow-800" },
+        "900": { "value": "#7B2E0F", "name": "Yellow-900" }
+      }
+    }
+  },
+  "notes": "This file contains color tokens from the Willow design system. Colors are sourced directly from Figma file q0ZgDEswbJLXOerrCYUp1M. Purple color palette was removed as it does not exist in the current Figma file. Semantic and special colors were removed pending verification from Figma design system."
+}

@@ -1,0 +1,21 @@
+import * as React from 'react'; // We've added the optional 'color' prop to this interface for type safety.
+interface SVGProps extends React.SVGProps<SVGSVGElement> {
+  size?: number | string;
+  color?: string;
+}
+const SvgSafety1 = React.forwardRef<SVGSVGElement, SVGProps>(({
+  size = 24,
+  color = 'currentColor',
+  ...props
+}, ref) => React.cloneElement(<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" {...props}><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m0 0-3.75-1.5m3.75 1.5-2.25 3m2.25-3 2.25 3m-2.25-3 3.75-1.5m4.5-.75V5.25a.75.75 0 0 0-.75-.75h-15a.75.75 0 0 0-.75.75v5.25c0 9 8.25 11.25 8.25 11.25s8.25-2.25 8.25-11.25" /></svg>, {
+  ...props,
+  ref,
+  width: size,
+  height: size,
+  style: {
+    ...props.style,
+    color: color
+  }
+}));
+SvgSafety1.displayName = "SvgSafety1";
+export default SvgSafety1;

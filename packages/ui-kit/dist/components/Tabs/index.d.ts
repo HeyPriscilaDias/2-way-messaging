@@ -1,0 +1,3 @@
+export { Tabs } from './Tabs.js';
+export type { TabsProps, TabItem } from './Tabs.types.js';
+//# sourceMappingURL=index.d.ts.map

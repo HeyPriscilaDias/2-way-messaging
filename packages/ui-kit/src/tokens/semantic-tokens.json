@@ -1,0 +1,381 @@
+{
+  "action": {
+    "bg-action-primary-default": {
+      "name": "bg-action-primary-default",
+      "value": "{color.slate.700}",
+      "description": "Background color for primary action buttons in default state"
+    },
+    "bg-action-primary-hover": {
+      "name": "bg-action-primary-hover",
+      "value": "{color.slate.900}",
+      "description": "Background color for primary action buttons on hover"
+    },
+    "bg-action-secondary-default": {
+      "name": "bg-action-secondary-default",
+      "value": "{color.neutral.25}",
+      "description": "Background color for secondary action buttons in default state"
+    },
+    "bg-action-secondary-hover": {
+      "name": "bg-action-secondary-hover",
+      "value": "{color.neutral.100}",
+      "description": "Background color for secondary action buttons on hover"
+    },
+    "bg-action-on-dark-default": {
+      "name": "bg-action-on-dark-default",
+      "value": "{color.slate.500}",
+      "description": "Background color for action buttons on dark backgrounds in default state"
+    },
+    "bg-action-on-dark-hover": {
+      "name": "bg-action-on-dark-hover",
+      "value": "{color.slate.600}",
+      "description": "Background color for action buttons on dark backgrounds on hover"
+    },
+    "bg-action-disabled": {
+      "name": "bg-action-disabled",
+      "value": "{color.neutral.200}",
+      "description": "Background color for disabled action buttons"
+    }
+  },
+  "status": {
+    "border-critical-focus": {
+      "name": "border-critical-focus",
+      "value": "{color.red.900}",
+      "description": "Border color for critical/error elements in focus state"
+    },
+    "bg-critical-default": {
+      "name": "bg-critical-default",
+      "value": "{color.red.600}",
+      "description": "Background color for critical/error elements in default state"
+    },
+    "bg-critical-hover": {
+      "name": "bg-critical-hover",
+      "value": "{color.red.800}",
+      "description": "Background color for critical/error elements on hover"
+    },
+    "text-critical": {
+      "name": "text-critical",
+      "value": "{color.neutral.25}",
+      "description": "Text color for critical/error messages"
+    }
+  },
+  "content": {
+    "text-content-on-brand-default": {
+      "name": "text-content-on-brand-default",
+      "value": "{color.neutral.25}",
+      "description": "Text color on brand-colored backgrounds"
+    },
+    "text-content-action-hover": {
+      "name": "text-content-action-hover",
+      "value": "{color.neutral.900}",
+      "description": "Text color for actionable text on hover"
+    },
+    "text-content-action-default": {
+      "name": "text-content-action-default",
+      "value": "{color.neutral.700}",
+      "description": "Text color for actionable text in default state"
+    },
+    "text-content-on-surface-light": {
+      "name": "text-content-on-surface-light",
+      "value": "{color.neutral.25}",
+      "description": "Text color on light surface backgrounds"
+    },
+    "text-content-disabled": {
+      "name": "text-content-disabled",
+      "value": "{color.neutral.500}",
+      "description": "Text color for disabled text"
+    },
+    "icon-content-on-dark": {
+      "name": "icon-content-on-dark",
+      "value": "{color.neutral.25}",
+      "description": "Icon color on dark backgrounds"
+    }
+  },
+  "background": {
+    "bg-canvas": {
+      "name": "bg-canvas",
+      "value": "{color.neutral.25}",
+      "description": "Main canvas/page background color"
+    },
+    "bg-surface-default": {
+      "name": "bg-surface-default",
+      "value": "{color.neutral.100}",
+      "description": "Default surface background color for cards and panels"
+    },
+    "bg-surface-focus": {
+      "name": "bg-surface-focus",
+      "value": "{color.neutral.100}",
+      "description": "Surface background color in focus state"
+    }
+  },
+  "border": {
+    "color-action-focus": {
+      "name": "color-action-focus",
+      "value": "{color.slate.700}",
+      "description": "Border color for action elements in focus state"
+    },
+    "color-action-focus-on-dark": {
+      "name": "color-action-focus-on-dark",
+      "value": "{color.neutral.25}",
+      "description": "Border color for action elements in focus state on dark backgrounds"
+    },
+    "border-default": {
+      "name": "border-default",
+      "value": "{color.neutral.300}",
+      "description": "Default border color"
+    },
+    "border-action-secondary-default": {
+      "name": "border-action-secondary-default",
+      "value": "{color.neutral.300}",
+      "description": "Border color for secondary action elements"
+    }
+  },
+  "sizing": {
+    "size-radius-component-default": {
+      "name": "size-radius-component-default",
+      "value": "{sizing.radiusMd}",
+      "description": "Border radius for default sized components"
+    },
+    "size-radius-component-small": {
+      "name": "size-radius-component-small",
+      "value": "{sizing.radiusSm}",
+      "description": "Border radius for small components"
+    },
+    "size-radius-full": {
+      "name": "size-radius-full",
+      "value": "{sizing.radiusFull}",
+      "description": "Full border radius for circular elements"
+    }
+  },
+  "spacing": {
+    "button-y-md": {
+      "name": "button-y-md",
+      "value": "{spacing.16}",
+      "description": "Vertical padding for medium buttons"
+    },
+    "button-y-sm": {
+      "name": "button-y-sm",
+      "value": "{spacing.8}",
+      "description": "Vertical padding for small buttons"
+    },
+    "button-x-md": {
+      "name": "button-x-md",
+      "value": "{spacing.16}",
+      "description": "Horizontal padding for medium buttons"
+    },
+    "button-x-sm": {
+      "name": "button-x-sm",
+      "value": "{spacing.12}",
+      "description": "Horizontal padding for small buttons"
+    },
+    "button-icon-xxs": {
+      "name": "button-icon-xxs",
+      "value": "{spacing.4}",
+      "description": "Gap between icon and text in extra small buttons"
+    },
+    "button-icon-xs": {
+      "name": "button-icon-xs",
+      "value": "{spacing.8}",
+      "description": "Gap between icon and text in small buttons"
+    },
+    "button-icon-md": {
+      "name": "button-icon-md",
+      "value": "{spacing.16}",
+      "description": "Gap between icon and text in medium buttons"
+    },
+    "button-icon-lg": {
+      "name": "button-icon-lg",
+      "value": "{spacing.24}",
+      "description": "Gap between icon and text in large buttons"
+    },
+    "padding-all-xxs": {
+      "name": "padding-all-xxs",
+      "value": "{spacing.4}",
+      "description": "Padding on all sides - extra small"
+    },
+    "padding-all-xs": {
+      "name": "padding-all-xs",
+      "value": "{spacing.8}",
+      "description": "Padding on all sides - small"
+    },
+    "padding-all-sm": {
+      "name": "padding-all-sm",
+      "value": "{spacing.12}",
+      "description": "Padding on all sides - small-medium"
+    },
+    "padding-all-md": {
+      "name": "padding-all-md",
+      "value": "{spacing.16}",
+      "description": "Padding on all sides - medium"
+    },
+    "padding-all-lg": {
+      "name": "padding-all-lg",
+      "value": "{spacing.24}",
+      "description": "Padding on all sides - large"
+    },
+    "padding-all-xl": {
+      "name": "padding-all-xl",
+      "value": "{spacing.32}",
+      "description": "Padding on all sides - extra large"
+    },
+    "padding-all-2xl": {
+      "name": "padding-all-2xl",
+      "value": "{spacing.40}",
+      "description": "Padding on all sides - 2x large"
+    },
+    "padding-all-4xl": {
+      "name": "padding-all-4xl",
+      "value": "{spacing.80}",
+      "description": "Padding on all sides - 4x large"
+    },
+    "padding-x-xxs": {
+      "name": "padding-x-xxs",
+      "value": "{spacing.4}",
+      "description": "Horizontal padding - extra small"
+    },
+    "padding-x-xs": {
+      "name": "padding-x-xs",
+      "value": "{spacing.8}",
+      "description": "Horizontal padding - small"
+    },
+    "padding-x-sm": {
+      "name": "padding-x-sm",
+      "value": "{spacing.12}",
+      "description": "Horizontal padding - small-medium"
+    },
+    "padding-x-md": {
+      "name": "padding-x-md",
+      "value": "{spacing.16}",
+      "description": "Horizontal padding - medium"
+    },
+    "padding-x-lg": {
+      "name": "padding-x-lg",
+      "value": "{spacing.24}",
+      "description": "Horizontal padding - large"
+    },
+    "padding-x-xl": {
+      "name": "padding-x-xl",
+      "value": "{spacing.32}",
+      "description": "Horizontal padding - extra large"
+    },
+    "padding-x-2xl": {
+      "name": "padding-x-2xl",
+      "value": "{spacing.40}",
+      "description": "Horizontal padding - 2x large"
+    },
+    "padding-x-custom-18": {
+      "name": "padding-x-custom-18",
+      "value": "{spacing.18}",
+      "description": "Horizontal padding - custom 18px"
+    },
+    "padding-y-xxs": {
+      "name": "padding-y-xxs",
+      "value": "{spacing.4}",
+      "description": "Vertical padding - extra small"
+    },
+    "padding-y-xs": {
+      "name": "padding-y-xs",
+      "value": "{spacing.8}",
+      "description": "Vertical padding - small"
+    },
+    "padding-y-sm": {
+      "name": "padding-y-sm",
+      "value": "{spacing.12}",
+      "description": "Vertical padding - small-medium"
+    },
+    "padding-y-md": {
+      "name": "padding-y-md",
+      "value": "{spacing.16}",
+      "description": "Vertical padding - medium"
+    },
+    "padding-y-lg": {
+      "name": "padding-y-lg",
+      "value": "{spacing.24}",
+      "description": "Vertical padding - large"
+    },
+    "padding-y-xl": {
+      "name": "padding-y-xl",
+      "value": "{spacing.32}",
+      "description": "Vertical padding - extra large"
+    },
+    "padding-y-2xl": {
+      "name": "padding-y-2xl",
+      "value": "{spacing.40}",
+      "description": "Vertical padding - 2x large"
+    },
+    "padding-y-custom-6": {
+      "name": "padding-y-custom-6",
+      "value": "{spacing.6}",
+      "description": "Vertical padding - custom 6px"
+    },
+    "padding-top-xxs": {
+      "name": "padding-top-xxs",
+      "value": "{spacing.4}",
+      "description": "Top padding - extra small"
+    },
+    "padding-top-xs": {
+      "name": "padding-top-xs",
+      "value": "{spacing.8}",
+      "description": "Top padding - small"
+    },
+    "padding-top-sm": {
+      "name": "padding-top-sm",
+      "value": "{spacing.12}",
+      "description": "Top padding - small-medium"
+    },
+    "padding-top-md": {
+      "name": "padding-top-md",
+      "value": "{spacing.16}",
+      "description": "Top padding - medium"
+    },
+    "padding-top-lg": {
+      "name": "padding-top-lg",
+      "value": "{spacing.24}",
+      "description": "Top padding - large"
+    },
+    "padding-top-xl": {
+      "name": "padding-top-xl",
+      "value": "{spacing.32}",
+      "description": "Top padding - extra large"
+    },
+    "padding-top-2xl": {
+      "name": "padding-top-2xl",
+      "value": "{spacing.40}",
+      "description": "Top padding - 2x large"
+    },
+    "padding-bottom-xxs": {
+      "name": "padding-bottom-xxs",
+      "value": "{spacing.4}",
+      "description": "Bottom padding - extra small"
+    },
+    "padding-bottom-xs": {
+      "name": "padding-bottom-xs",
+      "value": "{spacing.8}",
+      "description": "Bottom padding - small"
+    },
+    "padding-bottom-sm": {
+      "name": "padding-bottom-sm",
+      "value": "{spacing.12}",
+      "description": "Bottom padding - small-medium"
+    },
+    "padding-bottom-md": {
+      "name": "padding-bottom-md",
+      "value": "{spacing.16}",
+      "description": "Bottom padding - medium"
+    },
+    "padding-bottom-lg": {
+      "name": "padding-bottom-lg",
+      "value": "{spacing.24}",
+      "description": "Bottom padding - large"
+    },
+    "padding-bottom-xl": {
+      "name": "padding-bottom-xl",
+      "value": "{spacing.32}",
+      "description": "Bottom padding - extra large"
+    },
+    "padding-bottom-2xl": {
+      "name": "padding-bottom-2xl",
+      "value": "{spacing.40}",
+      "description": "Bottom padding - 2x large"
+    }
+  }
+}

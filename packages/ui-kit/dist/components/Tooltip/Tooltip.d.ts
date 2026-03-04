@@ -1,0 +1,2 @@
+export declare const Tooltip: import("react").ForwardRefExoticComponent<Omit<import("@mui/material").TooltipProps, "ref"> & import("react").RefAttributes<HTMLDivElement>>;
+//# sourceMappingURL=Tooltip.d.ts.map
