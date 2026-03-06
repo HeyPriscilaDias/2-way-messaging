@@ -6,28 +6,37 @@ import type { Thread } from "./mockData";
 import ThreadItem from "./ThreadItem";
 import ThreadOptionsMenu from "./ThreadOptionsMenu";
 
-type FilterTab = "all" | "unread";
+export type CategoryTab = "direct" | "groups" | "broadcasts" | "unread";
 
 interface ThreadListProps {
   threads: Thread[];
   selectedThreadId: string | null;
   searchQuery: string;
-  filterTab: FilterTab;
+  categoryTab: CategoryTab;
   onSelectThread: (threadId: string) => void;
   onSearchChange: (query: string) => void;
-  onFilterChange: (tab: FilterTab) => void;
+  onCategoryChange: (tab: CategoryTab) => void;
   onMarkAllRead: () => void;
+  onNewMessage: () => void;
 }
+
+const tabs: { key: CategoryTab; label: string }[] = [
+  { key: "direct", label: "Direct" },
+  { key: "groups", label: "Groups" },
+  { key: "broadcasts", label: "Broadcasts" },
+  { key: "unread", label: "Unread" },
+];
 
 export default function ThreadList({
   threads,
   selectedThreadId,
   searchQuery,
-  filterTab,
+  categoryTab,
   onSelectThread,
   onSearchChange,
-  onFilterChange,
+  onCategoryChange,
   onMarkAllRead,
+  onNewMessage,
 }: ThreadListProps) {
   return (
     <Box
@@ -55,7 +64,7 @@ export default function ThreadList({
           Messages
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-          <IconButton variant="ghost" size="sm">
+          <IconButton variant="ghost" size="sm" onClick={onNewMessage}>
             <Edit size={18} color="#6B7280" />
           </IconButton>
           <ThreadOptionsMenu onMarkAllRead={onMarkAllRead} />
@@ -94,28 +103,38 @@ export default function ThreadList({
         </Box>
       </Box>
 
-      {/* Filter tabs */}
-      <Box sx={{ display: "flex", px: 2, gap: 0.5, pb: 1 }}>
-        {(["all", "unread"] as const).map((tab) => (
+      {/* Category tabs */}
+      <Box
+        sx={{
+          display: "flex",
+          px: 2,
+          gap: 0.5,
+          pb: 1,
+          overflowX: "auto",
+          "&::-webkit-scrollbar": { display: "none" },
+        }}
+      >
+        {tabs.map((tab) => (
           <Box
-            key={tab}
-            onClick={() => onFilterChange(tab)}
+            key={tab.key}
+            onClick={() => onCategoryChange(tab.key)}
             sx={{
               px: 1.5,
               py: 0.5,
               borderRadius: "16px",
-              fontSize: "13px",
+              fontSize: "12px",
               fontWeight: 500,
               cursor: "pointer",
-              bgcolor: filterTab === tab ? "#062F29" : "#F3F4F6",
-              color: filterTab === tab ? "#FFFFFF" : "#6B7280",
+              whiteSpace: "nowrap",
+              bgcolor: categoryTab === tab.key ? "#062F29" : "#F3F4F6",
+              color: categoryTab === tab.key ? "#FFFFFF" : "#6B7280",
               transition: "all 0.15s ease",
               "&:hover": {
-                bgcolor: filterTab === tab ? "#062F29" : "#E5E7EB",
+                bgcolor: categoryTab === tab.key ? "#062F29" : "#E5E7EB",
               },
             }}
           >
-            {tab === "all" ? "All" : "Unread"}
+            {tab.label}
           </Box>
         ))}
       </Box>

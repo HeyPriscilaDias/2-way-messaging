@@ -15,10 +15,13 @@ export interface Message {
   deleted?: boolean;
 }
 
+export type ThreadType = "direct" | "group" | "broadcast";
+
 export interface Thread {
   id: string;
   participants: string[];
   groupName?: string;
+  type: ThreadType;
   lastMessage: string;
   lastMessageTime: Date;
   unreadCount: number;
@@ -76,6 +79,34 @@ export const users: Record<string, User> = {
     avatarColor: "#4F46E5",
     online: false,
   },
+  "user-7": {
+    id: "user-7",
+    name: "Rachel Torres",
+    initials: "RT",
+    avatarColor: "#E11D48",
+    online: true,
+  },
+  "user-8": {
+    id: "user-8",
+    name: "Nathan Lee",
+    initials: "NL",
+    avatarColor: "#0891B2",
+    online: false,
+  },
+  "user-9": {
+    id: "user-9",
+    name: "Olivia Martinez",
+    initials: "OM",
+    avatarColor: "#7C3AED",
+    online: true,
+  },
+  "user-10": {
+    id: "user-10",
+    name: "Ethan Patel",
+    initials: "EP",
+    avatarColor: "#CA8A04",
+    online: false,
+  },
 };
 
 function daysAgo(days: number, hours = 10, minutes = 0): Date {
@@ -89,6 +120,7 @@ export const threads: Thread[] = [
   {
     id: "thread-1",
     participants: ["user-me", "user-1"],
+    type: "direct",
     lastMessage: "Sure, I'll send the report by EOD!",
     lastMessageTime: daysAgo(0, 14, 32),
     unreadCount: 2,
@@ -96,6 +128,7 @@ export const threads: Thread[] = [
   {
     id: "thread-2",
     participants: ["user-me", "user-2"],
+    type: "direct",
     lastMessage: "Can we reschedule the meeting?",
     lastMessageTime: daysAgo(0, 11, 15),
     unreadCount: 0,
@@ -103,6 +136,7 @@ export const threads: Thread[] = [
   {
     id: "thread-3",
     participants: ["user-me", "user-3"],
+    type: "direct",
     lastMessage: "The new designs look great!",
     lastMessageTime: daysAgo(1, 16, 45),
     unreadCount: 1,
@@ -111,6 +145,7 @@ export const threads: Thread[] = [
     id: "thread-4",
     participants: ["user-me", "user-4", "user-5"],
     groupName: "Project Alpha",
+    type: "group",
     lastMessage: "Let's sync tomorrow morning",
     lastMessageTime: daysAgo(1, 9, 20),
     unreadCount: 0,
@@ -118,6 +153,7 @@ export const threads: Thread[] = [
   {
     id: "thread-5",
     participants: ["user-me", "user-6"],
+    type: "direct",
     lastMessage: "Thanks for the help!",
     lastMessageTime: daysAgo(2, 15, 10),
     unreadCount: 0,
@@ -125,6 +161,7 @@ export const threads: Thread[] = [
   {
     id: "thread-6",
     participants: ["user-me", "user-5"],
+    type: "direct",
     lastMessage: "I'll review the PR this afternoon",
     lastMessageTime: daysAgo(3, 13, 0),
     unreadCount: 3,
@@ -305,6 +342,10 @@ export const messages: Message[] = [
     timestamp: daysAgo(3, 13, 0),
   },
 ];
+
+export function getStudents(): User[] {
+  return Object.values(users).filter((u) => u.id !== currentUserId);
+}
 
 export function getThreadDisplayName(thread: Thread, currentUser: string): string {
   if (thread.groupName) return thread.groupName;

@@ -6,13 +6,14 @@ import {
   threads as initialThreads,
   messages as initialMessages,
   currentUserId,
+  users,
   getThreadDisplayName,
 } from "@/components/messages/mockData";
 import type { Thread, Message } from "@/components/messages/mockData";
 import ThreadList from "@/components/messages/ThreadList";
+import type { CategoryTab } from "@/components/messages/ThreadList";
 import ChatArea from "@/components/messages/ChatArea";
-
-type FilterTab = "all" | "unread";
+import NewMessageDialog from "@/components/messages/NewMessageDialog";
 
 export default function MessagesPage() {
   const [threads, setThreads] = useState<Thread[]>(initialThreads);
@@ -21,13 +22,25 @@ export default function MessagesPage() {
     initialThreads[0]?.id ?? null
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterTab, setFilterTab] = useState<FilterTab>("all");
+  const [categoryTab, setCategoryTab] = useState<CategoryTab>("direct");
   const [inputValue, setInputValue] = useState("");
+  const [newMessageOpen, setNewMessageOpen] = useState(false);
 
-  // Filter threads based on search and filter tab
+  // Filter threads based on search and category tab
   const filteredThreads = threads
     .filter((thread) => {
-      if (filterTab === "unread" && thread.unreadCount === 0) return false;
+      // Category filter
+      if (categoryTab === "unread") {
+        if (thread.unreadCount === 0) return false;
+      } else if (categoryTab === "direct") {
+        if (thread.type !== "direct") return false;
+      } else if (categoryTab === "groups") {
+        if (thread.type !== "group") return false;
+      } else if (categoryTab === "broadcasts") {
+        if (thread.type !== "broadcast") return false;
+      }
+
+      // Search filter
       if (searchQuery.trim()) {
         const name = getThreadDisplayName(thread, currentUserId).toLowerCase();
         const lastMsg = thread.lastMessage.toLowerCase();
@@ -44,7 +57,6 @@ export default function MessagesPage() {
   const handleSelectThread = useCallback((threadId: string) => {
     setSelectedThreadId(threadId);
     setInputValue("");
-    // Mark thread as read
     setThreads((prev) =>
       prev.map((t) => (t.id === threadId ? { ...t, unreadCount: 0 } : t))
     );
@@ -82,6 +94,94 @@ export default function MessagesPage() {
     setThreads((prev) => prev.map((t) => ({ ...t, unreadCount: 0 })));
   }, []);
 
+  // Select a student → open or create a direct thread
+  const handleSelectStudent = useCallback(
+    (userId: string) => {
+      const existing = threads.find(
+        (t) =>
+          t.type === "direct" &&
+          t.participants.includes(userId) &&
+          t.participants.includes(currentUserId) &&
+          t.participants.length === 2
+      );
+      if (existing) {
+        handleSelectThread(existing.id);
+        setCategoryTab("direct");
+        return;
+      }
+
+      const newThread: Thread = {
+        id: `thread-${Date.now()}`,
+        participants: [currentUserId, userId],
+        type: "direct",
+        lastMessage: "",
+        lastMessageTime: new Date(),
+        unreadCount: 0,
+      };
+      setThreads((prev) => [newThread, ...prev]);
+      setSelectedThreadId(newThread.id);
+      setCategoryTab("direct");
+      setInputValue("");
+    },
+    [threads, handleSelectThread]
+  );
+
+  // Create a group thread
+  const handleCreateGroup = useCallback(
+    (userIds: string[]) => {
+      const memberNames = userIds
+        .map((id) => users[id]?.name.split(" ")[0] ?? "Unknown")
+        .join(", ");
+      const groupName = memberNames;
+
+      const newThread: Thread = {
+        id: `thread-${Date.now()}`,
+        participants: [currentUserId, ...userIds],
+        groupName,
+        type: "group",
+        lastMessage: "",
+        lastMessageTime: new Date(),
+        unreadCount: 0,
+      };
+      setThreads((prev) => [newThread, ...prev]);
+      setSelectedThreadId(newThread.id);
+      setCategoryTab("groups");
+      setInputValue("");
+    },
+    []
+  );
+
+  // Create broadcast threads — one per recipient, with the composed message
+  const handleCreateBroadcast = useCallback(
+    (userIds: string[], message: string) => {
+      const now = Date.now();
+      const timestamp = new Date();
+      const newThreads: Thread[] = userIds.map((userId, i) => ({
+        id: `thread-${now}-${i}`,
+        participants: [currentUserId, userId],
+        type: "broadcast" as const,
+        lastMessage: message,
+        lastMessageTime: timestamp,
+        unreadCount: 0,
+      }));
+      const newMessages: Message[] = newThreads.map((thread) => ({
+        id: `msg-${thread.id}`,
+        threadId: thread.id,
+        senderId: currentUserId,
+        text: message,
+        timestamp,
+      }));
+      setThreads((prev) => [...newThreads, ...prev]);
+      setAllMessages((prev) => [...prev, ...newMessages]);
+      if (newThreads.length > 0) {
+        setSelectedThreadId(newThreads[0].id);
+      }
+      setCategoryTab("broadcasts");
+      setInputValue("");
+    },
+    []
+  );
+
   return (
     <Box
       sx={{
@@ -91,17 +191,19 @@ export default function MessagesPage() {
         display: "flex",
         overflow: "hidden",
         minHeight: 0,
+        position: "relative",
       }}
     >
       <ThreadList
         threads={filteredThreads}
         selectedThreadId={selectedThreadId}
         searchQuery={searchQuery}
-        filterTab={filterTab}
+        categoryTab={categoryTab}
         onSelectThread={handleSelectThread}
         onSearchChange={setSearchQuery}
-        onFilterChange={setFilterTab}
+        onCategoryChange={setCategoryTab}
         onMarkAllRead={handleMarkAllRead}
+        onNewMessage={() => setNewMessageOpen(true)}
       />
       <ChatArea
         thread={selectedThread}
@@ -110,6 +212,13 @@ export default function MessagesPage() {
         onInputChange={setInputValue}
         onSend={handleSend}
         onDeleteMessage={handleDeleteMessage}
+      />
+      <NewMessageDialog
+        open={newMessageOpen}
+        onClose={() => setNewMessageOpen(false)}
+        onSelectStudent={handleSelectStudent}
+        onCreateGroup={handleCreateGroup}
+        onCreateBroadcast={handleCreateBroadcast}
       />
     </Box>
   );
