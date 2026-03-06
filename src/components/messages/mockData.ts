@@ -4,6 +4,7 @@ export interface User {
   initials: string;
   avatarColor: string;
   online?: boolean;
+  grade?: string;
 }
 
 export interface Message {
@@ -36,6 +37,7 @@ export const users: Record<string, User> = {
     initials: "MC",
     avatarColor: "#062F29",
     online: true,
+    grade: "Staff",
   },
   "user-1": {
     id: "user-1",
@@ -43,6 +45,7 @@ export const users: Record<string, User> = {
     initials: "SJ",
     avatarColor: "#7C3AED",
     online: true,
+    grade: "11th Grade",
   },
   "user-2": {
     id: "user-2",
@@ -50,6 +53,7 @@ export const users: Record<string, User> = {
     initials: "JW",
     avatarColor: "#2563EB",
     online: false,
+    grade: "12th Grade",
   },
   "user-3": {
     id: "user-3",
@@ -57,6 +61,7 @@ export const users: Record<string, User> = {
     initials: "ED",
     avatarColor: "#DC2626",
     online: true,
+    grade: "10th Grade",
   },
   "user-4": {
     id: "user-4",
@@ -64,6 +69,7 @@ export const users: Record<string, User> = {
     initials: "MB",
     avatarColor: "#D97706",
     online: false,
+    grade: "11th Grade",
   },
   "user-5": {
     id: "user-5",
@@ -71,6 +77,7 @@ export const users: Record<string, User> = {
     initials: "LA",
     avatarColor: "#059669",
     online: true,
+    grade: "9th Grade",
   },
   "user-6": {
     id: "user-6",
@@ -78,6 +85,7 @@ export const users: Record<string, User> = {
     initials: "DK",
     avatarColor: "#4F46E5",
     online: false,
+    grade: "12th Grade",
   },
   "user-7": {
     id: "user-7",
@@ -85,6 +93,7 @@ export const users: Record<string, User> = {
     initials: "RT",
     avatarColor: "#E11D48",
     online: true,
+    grade: "10th Grade",
   },
   "user-8": {
     id: "user-8",
@@ -92,6 +101,7 @@ export const users: Record<string, User> = {
     initials: "NL",
     avatarColor: "#0891B2",
     online: false,
+    grade: "9th Grade",
   },
   "user-9": {
     id: "user-9",
@@ -99,6 +109,7 @@ export const users: Record<string, User> = {
     initials: "OM",
     avatarColor: "#7C3AED",
     online: true,
+    grade: "11th Grade",
   },
   "user-10": {
     id: "user-10",
@@ -106,6 +117,7 @@ export const users: Record<string, User> = {
     initials: "EP",
     avatarColor: "#CA8A04",
     online: false,
+    grade: "12th Grade",
   },
 };
 

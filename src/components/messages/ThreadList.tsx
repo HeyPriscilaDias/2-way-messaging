@@ -18,6 +18,7 @@ interface ThreadListProps {
   onCategoryChange: (tab: CategoryTab) => void;
   onMarkAllRead: () => void;
   onNewMessage: () => void;
+  onMessage: (userId: string) => void;
 }
 
 const tabs: { key: CategoryTab; label: string }[] = [
@@ -37,6 +38,7 @@ export default function ThreadList({
   onCategoryChange,
   onMarkAllRead,
   onNewMessage,
+  onMessage,
 }: ThreadListProps) {
   return (
     <Box
@@ -161,6 +163,7 @@ export default function ThreadList({
               thread={thread}
               selected={thread.id === selectedThreadId}
               onClick={() => onSelectThread(thread.id)}
+              onMessage={onMessage}
             />
           ))
         )}

@@ -7,6 +7,7 @@ import { users, currentUserId, getThreadDisplayName, getThreadAvatar, getDateLab
 import MessageBubble from "./MessageBubble";
 import DateSeparator from "./DateSeparator";
 import MessageInput from "./MessageInput";
+import StudentProfileCard from "./StudentProfileCard";
 
 interface ChatAreaProps {
   thread: Thread | null;
@@ -15,6 +16,7 @@ interface ChatAreaProps {
   onInputChange: (value: string) => void;
   onSend: () => void;
   onDeleteMessage: (messageId: string) => void;
+  onMessage: (userId: string) => void;
 }
 
 export default function ChatArea({
@@ -24,6 +26,7 @@ export default function ChatArea({
   onInputChange,
   onSend,
   onDeleteMessage,
+  onMessage,
 }: ChatAreaProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -122,7 +125,13 @@ export default function ChatArea({
         )}
         <Box>
           <Box sx={{ fontSize: "15px", fontWeight: 600, color: "#062F29" }}>
-            {displayName}
+            {otherUser ? (
+              <StudentProfileCard user={otherUser} onMessage={onMessage}>
+                {displayName}
+              </StudentProfileCard>
+            ) : (
+              displayName
+            )}
           </Box>
           {otherUser?.online && (
             <Box sx={{ fontSize: "12px", color: "#22C55E" }}>Online</Box>
@@ -154,6 +163,7 @@ export default function ChatArea({
               key={msg.id}
               message={msg}
               onDelete={onDeleteMessage}
+              onMessage={onMessage}
             />
           );
         })}

@@ -3,14 +3,16 @@
 import { Box, Avatar } from "@willow/ui-kit";
 import type { Thread } from "./mockData";
 import { users, currentUserId, getThreadDisplayName, getThreadAvatar, formatThreadTime } from "./mockData";
+import StudentProfileCard from "./StudentProfileCard";
 
 interface ThreadItemProps {
   thread: Thread;
   selected: boolean;
   onClick: () => void;
+  onMessage: (userId: string) => void;
 }
 
-export default function ThreadItem({ thread, selected, onClick }: ThreadItemProps) {
+export default function ThreadItem({ thread, selected, onClick, onMessage }: ThreadItemProps) {
   const displayName = getThreadDisplayName(thread, currentUserId);
   const otherUser = getThreadAvatar(thread, currentUserId);
   const timeLabel = formatThreadTime(thread.lastMessageTime);
@@ -91,7 +93,13 @@ export default function ThreadItem({ thread, selected, onClick }: ThreadItemProp
               mr: 1,
             }}
           >
-            {displayName}
+            {otherUser ? (
+              <StudentProfileCard user={otherUser} onMessage={onMessage}>
+                {displayName}
+              </StudentProfileCard>
+            ) : (
+              displayName
+            )}
           </Box>
           <Box
             sx={{

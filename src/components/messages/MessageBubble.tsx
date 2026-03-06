@@ -5,13 +5,15 @@ import { Box, Avatar } from "@willow/ui-kit";
 import type { Message } from "./mockData";
 import { users, currentUserId, formatMessageTime } from "./mockData";
 import MessageActionMenu from "./MessageActionMenu";
+import StudentProfileCard from "./StudentProfileCard";
 
 interface MessageBubbleProps {
   message: Message;
   onDelete: (messageId: string) => void;
+  onMessage: (userId: string) => void;
 }
 
-export default function MessageBubble({ message, onDelete }: MessageBubbleProps) {
+export default function MessageBubble({ message, onDelete, onMessage }: MessageBubbleProps) {
   const [hovered, setHovered] = useState(false);
   const isOutgoing = message.senderId === currentUserId;
   const sender = users[message.senderId];
@@ -92,7 +94,9 @@ export default function MessageBubble({ message, onDelete }: MessageBubbleProps)
         {/* Sender name for incoming */}
         {!isOutgoing && sender && (
           <Box sx={{ fontSize: "12px", fontWeight: 500, color: "#6B7280", mb: 0.25, ml: 0.5 }}>
-            {sender.name}
+            <StudentProfileCard user={sender} onMessage={onMessage}>
+              {sender.name}
+            </StudentProfileCard>
           </Box>
         )}
 

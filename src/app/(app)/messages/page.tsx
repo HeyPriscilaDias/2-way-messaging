@@ -204,6 +204,7 @@ export default function MessagesPage() {
         onCategoryChange={setCategoryTab}
         onMarkAllRead={handleMarkAllRead}
         onNewMessage={() => setNewMessageOpen(true)}
+        onMessage={handleSelectStudent}
       />
       <ChatArea
         thread={selectedThread}
@@ -212,6 +213,7 @@ export default function MessagesPage() {
         onInputChange={setInputValue}
         onSend={handleSend}
         onDeleteMessage={handleDeleteMessage}
+        onMessage={handleSelectStudent}
       />
       <NewMessageDialog
         open={newMessageOpen}
