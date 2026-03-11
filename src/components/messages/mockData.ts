@@ -19,6 +19,18 @@ export interface BlastReplyMeta {
   originalBlastText: string;
 }
 
+/**
+ * Message send status for optimistic UI updates.
+ * - "sending": Message is in-flight (show spinner/dimmed state)
+ * - "failed": Send failed (show retry button)
+ * - undefined: Message was sent successfully or is an incoming message
+ *
+ * @integration Ryan — When integrating with the real API, set sendStatus to "sending"
+ * before the API call, then clear it on success or set to "failed" on error.
+ * See handleSend and handleRetrySend in messages/page.tsx for the full flow.
+ */
+export type MessageSendStatus = "sending" | "failed";
+
 export interface Message {
   id: string;
   threadId: string;
@@ -27,6 +39,7 @@ export interface Message {
   timestamp: Date;
   deleted?: boolean;
   blastReplyMeta?: BlastReplyMeta;
+  sendStatus?: MessageSendStatus;
 }
 
 export type ThreadType = "direct" | "group";

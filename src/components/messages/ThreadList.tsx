@@ -190,27 +190,43 @@ export default function ThreadList({
       {/* Thread / Blast list */}
       <Box sx={{ flex: 1, overflowY: "auto" }}>
         {categoryTab === "blasts" ? (
-          blasts.length === 0 ? (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                fontSize: "13px",
-                color: "#9CA3AF",
-              }}
-            >
-              No blasts sent
-            </Box>
-          ) : (
-            blasts
+          (() => {
+            const filteredBlasts = blasts
               .filter((b) => {
                 if (!searchQuery.trim()) return true;
                 return b.text.toLowerCase().includes(searchQuery.toLowerCase());
               })
-              .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
-              .map((blast) => (
+              .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+
+            if (filteredBlasts.length === 0) {
+              return (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    fontSize: "13px",
+                    color: "#9CA3AF",
+                    gap: 0.5,
+                    px: 3,
+                    textAlign: "center",
+                  }}
+                >
+                  {searchQuery.trim() ? (
+                    <>
+                      <Search size={20} color="#D1D5DB" />
+                      No results for &ldquo;{searchQuery}&rdquo;
+                    </>
+                  ) : (
+                    "No blasts sent"
+                  )}
+                </Box>
+              );
+            }
+
+            return filteredBlasts.map((blast) => (
                 <Box
                   key={blast.id}
                   onClick={() => onSelectBlast(blast.id)}
@@ -276,20 +292,33 @@ export default function ThreadList({
                     </Box>
                   </Box>
                 </Box>
-              ))
-          )
+              ));
+          })()
         ) : threads.length === 0 ? (
           <Box
             sx={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               height: "100%",
               fontSize: "13px",
               color: "#9CA3AF",
+              gap: 0.5,
+              px: 3,
+              textAlign: "center",
             }}
           >
-            {isArchived ? "No archived conversations" : "No conversations found"}
+            {searchQuery.trim() ? (
+              <>
+                <Search size={20} color="#D1D5DB" />
+                No results for &ldquo;{searchQuery}&rdquo;
+              </>
+            ) : isArchived ? (
+              "No archived conversations"
+            ) : (
+              "No conversations found"
+            )}
           </Box>
         ) : (
           threads.map((thread) => (

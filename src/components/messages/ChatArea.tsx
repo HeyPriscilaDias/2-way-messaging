@@ -15,6 +15,7 @@ interface ChatAreaProps {
   inputValue: string;
   onInputChange: (value: string) => void;
   onSend: () => void;
+  onRetrySend: (messageId: string) => void;
   onDeleteMessage: (messageId: string) => void;
   onMessage: (userId: string) => void;
   onArchiveThread: (threadId: string) => void;
@@ -27,6 +28,7 @@ export default function ChatArea({
   inputValue,
   onInputChange,
   onSend,
+  onRetrySend,
   onDeleteMessage,
   onMessage,
   onArchiveThread,
@@ -198,6 +200,7 @@ export default function ChatArea({
               key={msg.id}
               message={msg}
               onDelete={onDeleteMessage}
+              onRetrySend={onRetrySend}
               onMessage={onMessage}
             />
           );

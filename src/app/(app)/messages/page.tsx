@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Box } from "@willow/ui-kit";
 import {
   threads as initialThreads,
@@ -81,6 +81,19 @@ export default function MessagesPage() {
     setInputValue("");
   }, []);
 
+  /**
+   * Sends a message with optimistic UI updates and error handling.
+   *
+   * @integration Ryan — Replace the mock `sendMessageToAPI` call below with the real
+   * API call (e.g. POST /api/messages). The optimistic UI pattern:
+   *   1. Immediately append the message with sendStatus: "sending"
+   *   2. Call the API
+   *   3. On success: clear sendStatus (set to undefined)
+   *   4. On failure: set sendStatus to "failed" — the UI will show a retry button
+   *
+   * The retry flow (handleRetrySend) re-uses the same message ID so the UI stays
+   * consistent. It enforces a 4-second cooldown between retries to prevent spam.
+   */
   const handleSend = useCallback(() => {
     if (!inputValue.trim() || !selectedThreadId) return;
 
@@ -90,6 +103,8 @@ export default function MessagesPage() {
       senderId: currentUserId,
       text: inputValue.trim(),
       timestamp: new Date(),
+      // @integration Ryan — Set to "sending" here when making real API calls:
+      // sendStatus: "sending",
     };
 
     setAllMessages((prev) => [...prev, newMessage]);
@@ -101,7 +116,66 @@ export default function MessagesPage() {
       )
     );
     setInputValue("");
+
+    // @integration Ryan — Uncomment and replace with real API call:
+    // try {
+    //   await sendMessageToAPI(newMessage);
+    //   // Success: clear sendStatus
+    //   setAllMessages((prev) =>
+    //     prev.map((m) => (m.id === newMessage.id ? { ...m, sendStatus: undefined } : m))
+    //   );
+    // } catch {
+    //   // Failure: mark as failed so retry button appears
+    //   setAllMessages((prev) =>
+    //     prev.map((m) => (m.id === newMessage.id ? { ...m, sendStatus: "failed" } : m))
+    //   );
+    // }
   }, [inputValue, selectedThreadId]);
+
+  /**
+   * Retries sending a failed message. Enforces a 4-second cooldown between retries
+   * to prevent excessive API calls. The cooldown is tracked per-message via a ref.
+   *
+   * @integration Ryan — Replace the mock API call below with the real one.
+   * The cooldown logic is ready to use as-is.
+   */
+  const retryCooldowns = useRef<Record<string, number>>({});
+
+  const handleRetrySend = useCallback((messageId: string) => {
+    const now = Date.now();
+    const lastRetry = retryCooldowns.current[messageId] ?? 0;
+
+    // Enforce 4-second cooldown between retries
+    if (now - lastRetry < 4000) return;
+    retryCooldowns.current[messageId] = now;
+
+    // Set status back to "sending"
+    setAllMessages((prev) =>
+      prev.map((m) => (m.id === messageId ? { ...m, sendStatus: "sending" } : m))
+    );
+
+    // @integration Ryan — Replace with real API call:
+    // try {
+    //   const message = allMessages.find((m) => m.id === messageId);
+    //   await sendMessageToAPI(message);
+    //   setAllMessages((prev) =>
+    //     prev.map((m) => (m.id === messageId ? { ...m, sendStatus: undefined } : m))
+    //   );
+    //   delete retryCooldowns.current[messageId];
+    // } catch {
+    //   setAllMessages((prev) =>
+    //     prev.map((m) => (m.id === messageId ? { ...m, sendStatus: "failed" } : m))
+    //   );
+    // }
+
+    // Mock: simulate success after a short delay (remove when integrating)
+    setTimeout(() => {
+      setAllMessages((prev) =>
+        prev.map((m) => (m.id === messageId ? { ...m, sendStatus: undefined } : m))
+      );
+      delete retryCooldowns.current[messageId];
+    }, 800);
+  }, []);
 
   const handleDeleteMessage = useCallback((messageId: string) => {
     setAllMessages((prev) =>
@@ -260,6 +334,7 @@ export default function MessagesPage() {
           inputValue={inputValue}
           onInputChange={setInputValue}
           onSend={handleSend}
+          onRetrySend={handleRetrySend}
           onDeleteMessage={handleDeleteMessage}
           onMessage={handleSelectStudent}
           onArchiveThread={handleArchiveThread}
