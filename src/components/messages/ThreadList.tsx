@@ -2,7 +2,9 @@
 
 import { Box, IconButton } from "@willow/ui-kit";
 import { Search, Edit, ArrowLeft } from "@willow/icons";
-import type { Thread } from "./mockData";
+import { Share } from "lucide-react";
+import type { Thread, Blast } from "./mockData";
+import { formatThreadTime } from "./mockData";
 import ThreadItem from "./ThreadItem";
 import ThreadOptionsMenu from "./ThreadOptionsMenu";
 
@@ -10,10 +12,13 @@ export type CategoryTab = "direct" | "groups" | "blasts" | "unread" | "archived"
 
 interface ThreadListProps {
   threads: Thread[];
+  blasts: Blast[];
   selectedThreadId: string | null;
+  selectedBlastId: string | null;
   searchQuery: string;
   categoryTab: CategoryTab;
   onSelectThread: (threadId: string) => void;
+  onSelectBlast: (blastId: string) => void;
   onSearchChange: (query: string) => void;
   onCategoryChange: (tab: CategoryTab) => void;
   onMarkAllRead: () => void;
@@ -32,10 +37,13 @@ const tabs: { key: CategoryTab; label: string }[] = [
 
 export default function ThreadList({
   threads,
+  blasts,
   selectedThreadId,
+  selectedBlastId,
   searchQuery,
   categoryTab,
   onSelectThread,
+  onSelectBlast,
   onSearchChange,
   onCategoryChange,
   onMarkAllRead,
@@ -171,9 +179,98 @@ export default function ThreadList({
         </Box>
       )}
 
-      {/* Thread list */}
+      {/* Thread / Blast list */}
       <Box sx={{ flex: 1, overflowY: "auto" }}>
-        {threads.length === 0 ? (
+        {categoryTab === "blasts" ? (
+          blasts.length === 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                fontSize: "13px",
+                color: "#9CA3AF",
+              }}
+            >
+              No blasts sent
+            </Box>
+          ) : (
+            blasts
+              .filter((b) => {
+                if (!searchQuery.trim()) return true;
+                return b.text.toLowerCase().includes(searchQuery.toLowerCase());
+              })
+              .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+              .map((blast) => (
+                <Box
+                  key={blast.id}
+                  onClick={() => onSelectBlast(blast.id)}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1.5,
+                    px: 2,
+                    py: 1.5,
+                    cursor: "pointer",
+                    bgcolor: blast.id === selectedBlastId ? "#F0F7F6" : "transparent",
+                    borderLeft: blast.id === selectedBlastId ? "3px solid #4C6A66" : "3px solid transparent",
+                    transition: "background-color 0.15s ease",
+                    "&:hover": {
+                      bgcolor: blast.id === selectedBlastId ? "#F0F7F6" : "#F9FAFB",
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      bgcolor: "#F0F7F6",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Share size={16} color="#4C6A66" />
+                  </Box>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 0.25 }}>
+                      <Box
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          color: "#062F29",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          flex: 1,
+                          mr: 1,
+                        }}
+                      >
+                        {blast.recipientIds.length} {blast.recipientIds.length === 1 ? "recipient" : "recipients"}
+                      </Box>
+                      <Box sx={{ fontSize: "12px", color: "#9CA3AF", whiteSpace: "nowrap", flexShrink: 0 }}>
+                        {formatThreadTime(blast.timestamp)}
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        fontSize: "13px",
+                        color: "#6B7280",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {blast.text}
+                    </Box>
+                  </Box>
+                </Box>
+              ))
+          )
+        ) : threads.length === 0 ? (
           <Box
             sx={{
               display: "flex",

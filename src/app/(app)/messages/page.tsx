@@ -5,22 +5,26 @@ import { Box } from "@willow/ui-kit";
 import {
   threads as initialThreads,
   messages as initialMessages,
+  blasts as initialBlasts,
   currentUserId,
   users,
   getThreadDisplayName,
 } from "@/components/messages/mockData";
-import type { Thread, Message } from "@/components/messages/mockData";
+import type { Thread, Message, Blast } from "@/components/messages/mockData";
 import ThreadList from "@/components/messages/ThreadList";
 import type { CategoryTab } from "@/components/messages/ThreadList";
 import ChatArea from "@/components/messages/ChatArea";
+import BlastDetailView from "@/components/messages/BlastDetailView";
 import NewMessageDialog from "@/components/messages/NewMessageDialog";
 
 export default function MessagesPage() {
   const [threads, setThreads] = useState<Thread[]>(initialThreads);
   const [allMessages, setAllMessages] = useState<Message[]>(initialMessages);
+  const [allBlasts, setAllBlasts] = useState<Blast[]>(initialBlasts);
   const [selectedThreadId, setSelectedThreadId] = useState<string | null>(
     initialThreads[0]?.id ?? null
   );
+  const [selectedBlastId, setSelectedBlastId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryTab, setCategoryTab] = useState<CategoryTab>("direct");
   const [inputValue, setInputValue] = useState("");
@@ -42,7 +46,8 @@ export default function MessagesPage() {
         } else if (categoryTab === "groups") {
           if (thread.type !== "group") return false;
         } else if (categoryTab === "blasts") {
-          if (thread.type !== "blast") return false;
+          // Blasts tab is handled separately — no threads shown
+          return false;
         }
       }
 
@@ -58,14 +63,22 @@ export default function MessagesPage() {
     .sort((a, b) => b.lastMessageTime.getTime() - a.lastMessageTime.getTime());
 
   const selectedThread = threads.find((t) => t.id === selectedThreadId) ?? null;
+  const selectedBlast = allBlasts.find((b) => b.id === selectedBlastId) ?? null;
   const threadMessages = allMessages.filter((m) => m.threadId === selectedThreadId);
 
   const handleSelectThread = useCallback((threadId: string) => {
     setSelectedThreadId(threadId);
+    setSelectedBlastId(null);
     setInputValue("");
     setThreads((prev) =>
       prev.map((t) => (t.id === threadId ? { ...t, unreadCount: 0 } : t))
     );
+  }, []);
+
+  const handleSelectBlast = useCallback((blastId: string) => {
+    setSelectedBlastId(blastId);
+    setSelectedThreadId(null);
+    setInputValue("");
   }, []);
 
   const handleSend = useCallback(() => {
@@ -145,10 +158,19 @@ export default function MessagesPage() {
       };
       setThreads((prev) => [newThread, ...prev]);
       setSelectedThreadId(newThread.id);
+      setSelectedBlastId(null);
       setCategoryTab("direct");
       setInputValue("");
     },
     [threads, handleSelectThread]
+  );
+
+  // Navigate from blast detail → direct thread with a student
+  const handleBlastNavigateToThread = useCallback(
+    (userId: string) => {
+      handleSelectStudent(userId);
+    },
+    [handleSelectStudent]
   );
 
   // Create a group thread
@@ -170,37 +192,26 @@ export default function MessagesPage() {
       };
       setThreads((prev) => [newThread, ...prev]);
       setSelectedThreadId(newThread.id);
+      setSelectedBlastId(null);
       setCategoryTab("groups");
       setInputValue("");
     },
     []
   );
 
-  // Create blast threads — one per recipient, with the composed message
+  // Create a blast record
   const handleCreateBlast = useCallback(
     (userIds: string[], message: string) => {
-      const now = Date.now();
-      const timestamp = new Date();
-      const newThreads: Thread[] = userIds.map((userId, i) => ({
-        id: `thread-${now}-${i}`,
-        participants: [currentUserId, userId],
-        type: "blast" as const,
-        lastMessage: message,
-        lastMessageTime: timestamp,
-        unreadCount: 0,
-      }));
-      const newMessages: Message[] = newThreads.map((thread) => ({
-        id: `msg-${thread.id}`,
-        threadId: thread.id,
+      const newBlast: Blast = {
+        id: `blast-${Date.now()}`,
         senderId: currentUserId,
         text: message,
-        timestamp,
-      }));
-      setThreads((prev) => [...newThreads, ...prev]);
-      setAllMessages((prev) => [...prev, ...newMessages]);
-      if (newThreads.length > 0) {
-        setSelectedThreadId(newThreads[0].id);
-      }
+        timestamp: new Date(),
+        recipientIds: userIds,
+      };
+      setAllBlasts((prev) => [newBlast, ...prev]);
+      setSelectedBlastId(newBlast.id);
+      setSelectedThreadId(null);
       setCategoryTab("blasts");
       setInputValue("");
     },
@@ -221,10 +232,13 @@ export default function MessagesPage() {
     >
       <ThreadList
         threads={filteredThreads}
+        blasts={allBlasts}
         selectedThreadId={selectedThreadId}
+        selectedBlastId={selectedBlastId}
         searchQuery={searchQuery}
         categoryTab={categoryTab}
         onSelectThread={handleSelectThread}
+        onSelectBlast={handleSelectBlast}
         onSearchChange={setSearchQuery}
         onCategoryChange={setCategoryTab}
         onMarkAllRead={handleMarkAllRead}
@@ -233,17 +247,25 @@ export default function MessagesPage() {
         onArchiveThread={handleArchiveThread}
         onUnarchiveThread={handleUnarchiveThread}
       />
-      <ChatArea
-        thread={selectedThread}
-        messages={threadMessages}
-        inputValue={inputValue}
-        onInputChange={setInputValue}
-        onSend={handleSend}
-        onDeleteMessage={handleDeleteMessage}
-        onMessage={handleSelectStudent}
-        onArchiveThread={handleArchiveThread}
-        onUnarchiveThread={handleUnarchiveThread}
-      />
+      {selectedBlast ? (
+        <BlastDetailView
+          blast={selectedBlast}
+          allMessages={allMessages}
+          onNavigateToThread={handleBlastNavigateToThread}
+        />
+      ) : (
+        <ChatArea
+          thread={selectedThread}
+          messages={threadMessages}
+          inputValue={inputValue}
+          onInputChange={setInputValue}
+          onSend={handleSend}
+          onDeleteMessage={handleDeleteMessage}
+          onMessage={handleSelectStudent}
+          onArchiveThread={handleArchiveThread}
+          onUnarchiveThread={handleUnarchiveThread}
+        />
+      )}
       <NewMessageDialog
         open={newMessageOpen}
         onClose={() => setNewMessageOpen(false)}

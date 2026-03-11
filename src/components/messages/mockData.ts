@@ -6,6 +6,19 @@ export interface User {
   grade?: string;
 }
 
+export interface Blast {
+  id: string;
+  senderId: string;
+  text: string;
+  timestamp: Date;
+  recipientIds: string[];
+}
+
+export interface BlastReplyMeta {
+  originalBlastId: string;
+  originalBlastText: string;
+}
+
 export interface Message {
   id: string;
   threadId: string;
@@ -13,9 +26,10 @@ export interface Message {
   text: string;
   timestamp: Date;
   deleted?: boolean;
+  blastReplyMeta?: BlastReplyMeta;
 }
 
-export type ThreadType = "direct" | "group" | "blast";
+export type ThreadType = "direct" | "group";
 
 export interface Thread {
   id: string;
@@ -185,6 +199,24 @@ export const threads: Thread[] = [
     lastMessageTime: daysAgo(7, 14, 0),
     unreadCount: 0,
     archived: true,
+  },
+  // Direct thread for Ethan (blast reply destination)
+  {
+    id: "thread-9",
+    participants: ["user-me", "user-10"],
+    type: "direct",
+    lastMessage: "I have a question about the application deadline — is it Friday at midnight or end of school day?",
+    lastMessageTime: daysAgo(0, 9, 15),
+    unreadCount: 1,
+  },
+  // Direct thread for Olivia (blast reply destination)
+  {
+    id: "thread-10",
+    participants: ["user-me", "user-9"],
+    type: "direct",
+    lastMessage: "I lost my permission slip, can I get another copy?",
+    lastMessageTime: daysAgo(0, 10, 30),
+    unreadCount: 1,
   },
 ];
 
@@ -399,6 +431,49 @@ export const messages: Message[] = [
     senderId: "user-me",
     text: "See you all next week",
     timestamp: daysAgo(7, 14, 0),
+  },
+
+  // Thread 9: Ethan replies to a blast (single sentence — no expand icon)
+  {
+    id: "msg-9-1",
+    threadId: "thread-9",
+    senderId: "user-10",
+    text: "I have a question about the application deadline — is it Friday at midnight or end of school day?",
+    timestamp: daysAgo(0, 9, 15),
+    blastReplyMeta: {
+      originalBlastId: "blast-1",
+      originalBlastText: "Don't forget to submit your college applications by Friday!",
+    },
+  },
+
+  // Thread 10: Olivia replies to a blast (multi-sentence — shows expand icon)
+  {
+    id: "msg-10-1",
+    threadId: "thread-10",
+    senderId: "user-9",
+    text: "I lost my permission slip, can I get another copy?",
+    timestamp: daysAgo(0, 10, 30),
+    blastReplyMeta: {
+      originalBlastId: "blast-2",
+      originalBlastText: "Reminder: Junior class meeting tomorrow at 3pm in the auditorium. Please bring your signed permission slips for the field trip. Let me know if you have any questions!",
+    },
+  },
+];
+
+export const blasts: Blast[] = [
+  {
+    id: "blast-1",
+    senderId: "user-me",
+    text: "Don't forget to submit your college applications by Friday!",
+    timestamp: daysAgo(1, 8, 0),
+    recipientIds: ["user-10", "user-2", "user-6"],
+  },
+  {
+    id: "blast-2",
+    senderId: "user-me",
+    text: "Reminder: Junior class meeting tomorrow at 3pm in the auditorium. Please bring your signed permission slips for the field trip. Let me know if you have any questions!",
+    timestamp: daysAgo(2, 9, 0),
+    recipientIds: ["user-9", "user-1", "user-4"],
   },
 ];
 
