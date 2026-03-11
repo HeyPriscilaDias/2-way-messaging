@@ -26,6 +26,7 @@ export interface Thread {
   lastMessage: string;
   lastMessageTime: Date;
   unreadCount: number;
+  archived?: boolean;
 }
 
 export const currentUserId = "user-me";
@@ -177,6 +178,25 @@ export const threads: Thread[] = [
     lastMessage: "I'll review the PR this afternoon",
     lastMessageTime: daysAgo(3, 13, 0),
     unreadCount: 3,
+  },
+  {
+    id: "thread-7",
+    participants: ["user-me", "user-7"],
+    type: "direct",
+    lastMessage: "Got it, thanks for the update!",
+    lastMessageTime: daysAgo(5, 11, 30),
+    unreadCount: 0,
+    archived: true,
+  },
+  {
+    id: "thread-8",
+    participants: ["user-me", "user-8", "user-9"],
+    groupName: "Study Group",
+    type: "group",
+    lastMessage: "See you all next week",
+    lastMessageTime: daysAgo(7, 14, 0),
+    unreadCount: 0,
+    archived: true,
   },
 ];
 
@@ -352,6 +372,45 @@ export const messages: Message[] = [
     senderId: "user-5",
     text: "I'll review the PR this afternoon",
     timestamp: daysAgo(3, 13, 0),
+  },
+
+  // Thread 7: Maya & Rachel (archived)
+  {
+    id: "msg-7-1",
+    threadId: "thread-7",
+    senderId: "user-7",
+    text: "Hey Maya, just wanted to let you know I submitted my assignment.",
+    timestamp: daysAgo(5, 10, 0),
+  },
+  {
+    id: "msg-7-2",
+    threadId: "thread-7",
+    senderId: "user-me",
+    text: "Got it, thanks for the update!",
+    timestamp: daysAgo(5, 11, 30),
+  },
+
+  // Thread 8: Study Group (archived)
+  {
+    id: "msg-8-1",
+    threadId: "thread-8",
+    senderId: "user-8",
+    text: "Are we still meeting this Friday?",
+    timestamp: daysAgo(7, 12, 0),
+  },
+  {
+    id: "msg-8-2",
+    threadId: "thread-8",
+    senderId: "user-9",
+    text: "Yes! Same time, same place.",
+    timestamp: daysAgo(7, 13, 0),
+  },
+  {
+    id: "msg-8-3",
+    threadId: "thread-8",
+    senderId: "user-me",
+    text: "See you all next week",
+    timestamp: daysAgo(7, 14, 0),
   },
 ];
 

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Box, Avatar } from "@willow/ui-kit";
+import { Box, Avatar, IconButton } from "@willow/ui-kit";
 import type { Thread, Message } from "./mockData";
-import { users, currentUserId, getThreadDisplayName, getThreadAvatar, getDateLabel } from "./mockData";
+import { currentUserId, getThreadDisplayName, getThreadAvatar, getDateLabel } from "./mockData";
 import MessageBubble from "./MessageBubble";
 import DateSeparator from "./DateSeparator";
 import MessageInput from "./MessageInput";
-import StudentProfileCard from "./StudentProfileCard";
+import ArchiveIcon from "./ArchiveIcon";
 
 interface ChatAreaProps {
   thread: Thread | null;
@@ -17,6 +17,8 @@ interface ChatAreaProps {
   onSend: () => void;
   onDeleteMessage: (messageId: string) => void;
   onMessage: (userId: string) => void;
+  onArchiveThread: (threadId: string) => void;
+  onUnarchiveThread: (threadId: string) => void;
 }
 
 export default function ChatArea({
@@ -27,6 +29,8 @@ export default function ChatArea({
   onSend,
   onDeleteMessage,
   onMessage,
+  onArchiveThread,
+  onUnarchiveThread,
 }: ChatAreaProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -123,15 +127,9 @@ export default function ChatArea({
             {thread.groupName?.[0] ?? "G"}
           </Avatar>
         )}
-        <Box>
+        <Box sx={{ flex: 1 }}>
           <Box sx={{ fontSize: "15px", fontWeight: 600, color: "#062F29" }}>
-            {otherUser ? (
-              <StudentProfileCard user={otherUser} onMessage={onMessage}>
-                {displayName}
-              </StudentProfileCard>
-            ) : (
-              displayName
-            )}
+            {displayName}
           </Box>
           {otherUser?.online && (
             <Box sx={{ fontSize: "12px", color: "#22C55E" }}>Online</Box>
@@ -142,7 +140,61 @@ export default function ChatArea({
             </Box>
           )}
         </Box>
+        <IconButton
+          variant="ghost"
+          size="sm"
+          onClick={() =>
+            thread.archived
+              ? onUnarchiveThread(thread.id)
+              : onArchiveThread(thread.id)
+          }
+          title={thread.archived ? "Unarchive conversation" : "Archive conversation"}
+          sx={{
+            flexShrink: 0,
+            ...(thread.archived && { transform: "rotate(180deg)" }),
+          }}
+        >
+          <ArchiveIcon size={18} style={{ color: "#6B7280" }} />
+        </IconButton>
       </Box>
+
+      {/* Archived banner */}
+      {thread.archived && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 1,
+            px: 2,
+            py: 1,
+            bgcolor: "#FEF9C3",
+            borderBottom: "1px solid #FDE68A",
+          }}
+        >
+          <ArchiveIcon size={14} style={{ color: "#92400E", flexShrink: 0 }} />
+          <Box sx={{ fontSize: "12px", color: "#92400E", fontWeight: 500 }}>
+            This conversation is archived.
+          </Box>
+          <Box
+            component="button"
+            onClick={() => onUnarchiveThread(thread.id)}
+            sx={{
+              border: "none",
+              bgcolor: "transparent",
+              color: "#92400E",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+              textDecoration: "underline",
+              p: 0,
+              "&:hover": { color: "#78350F" },
+            }}
+          >
+            Unarchive
+          </Box>
+        </Box>
+      )}
 
       {/* Messages */}
       <Box

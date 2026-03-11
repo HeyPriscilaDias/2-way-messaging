@@ -29,15 +29,21 @@ export default function MessagesPage() {
   // Filter threads based on search and category tab
   const filteredThreads = threads
     .filter((thread) => {
-      // Category filter
-      if (categoryTab === "unread") {
-        if (thread.unreadCount === 0) return false;
-      } else if (categoryTab === "direct") {
-        if (thread.type !== "direct") return false;
-      } else if (categoryTab === "groups") {
-        if (thread.type !== "group") return false;
-      } else if (categoryTab === "blasts") {
-        if (thread.type !== "blast") return false;
+      // Archived tab shows only archived threads; all other tabs hide archived
+      if (categoryTab === "archived") {
+        if (!thread.archived) return false;
+      } else {
+        if (thread.archived) return false;
+
+        if (categoryTab === "unread") {
+          if (thread.unreadCount === 0) return false;
+        } else if (categoryTab === "direct") {
+          if (thread.type !== "direct") return false;
+        } else if (categoryTab === "groups") {
+          if (thread.type !== "group") return false;
+        } else if (categoryTab === "blasts") {
+          if (thread.type !== "blast") return false;
+        }
       }
 
       // Search filter
@@ -77,7 +83,7 @@ export default function MessagesPage() {
     setThreads((prev) =>
       prev.map((t) =>
         t.id === selectedThreadId
-          ? { ...t, lastMessage: newMessage.text, lastMessageTime: newMessage.timestamp }
+          ? { ...t, lastMessage: newMessage.text, lastMessageTime: newMessage.timestamp, archived: false }
           : t
       )
     );
@@ -92,6 +98,25 @@ export default function MessagesPage() {
 
   const handleMarkAllRead = useCallback(() => {
     setThreads((prev) => prev.map((t) => ({ ...t, unreadCount: 0 })));
+  }, []);
+
+  const handleArchiveThread = useCallback(
+    (threadId: string) => {
+      setThreads((prev) =>
+        prev.map((t) => (t.id === threadId ? { ...t, archived: true } : t))
+      );
+      // If archiving the selected thread, deselect it
+      if (selectedThreadId === threadId) {
+        setSelectedThreadId(null);
+      }
+    },
+    [selectedThreadId]
+  );
+
+  const handleUnarchiveThread = useCallback((threadId: string) => {
+    setThreads((prev) =>
+      prev.map((t) => (t.id === threadId ? { ...t, archived: false } : t))
+    );
   }, []);
 
   // Select a student → open or create a direct thread
@@ -205,6 +230,8 @@ export default function MessagesPage() {
         onMarkAllRead={handleMarkAllRead}
         onNewMessage={() => setNewMessageOpen(true)}
         onMessage={handleSelectStudent}
+        onArchiveThread={handleArchiveThread}
+        onUnarchiveThread={handleUnarchiveThread}
       />
       <ChatArea
         thread={selectedThread}
@@ -214,6 +241,8 @@ export default function MessagesPage() {
         onSend={handleSend}
         onDeleteMessage={handleDeleteMessage}
         onMessage={handleSelectStudent}
+        onArchiveThread={handleArchiveThread}
+        onUnarchiveThread={handleUnarchiveThread}
       />
       <NewMessageDialog
         open={newMessageOpen}

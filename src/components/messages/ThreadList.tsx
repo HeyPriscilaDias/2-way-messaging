@@ -1,12 +1,12 @@
 "use client";
 
 import { Box, IconButton } from "@willow/ui-kit";
-import { Search, Edit } from "@willow/icons";
+import { Search, Edit, ArrowLeft } from "@willow/icons";
 import type { Thread } from "./mockData";
 import ThreadItem from "./ThreadItem";
 import ThreadOptionsMenu from "./ThreadOptionsMenu";
 
-export type CategoryTab = "direct" | "groups" | "blasts" | "unread";
+export type CategoryTab = "direct" | "groups" | "blasts" | "unread" | "archived";
 
 interface ThreadListProps {
   threads: Thread[];
@@ -19,6 +19,8 @@ interface ThreadListProps {
   onMarkAllRead: () => void;
   onNewMessage: () => void;
   onMessage: (userId: string) => void;
+  onArchiveThread: (threadId: string) => void;
+  onUnarchiveThread: (threadId: string) => void;
 }
 
 const tabs: { key: CategoryTab; label: string }[] = [
@@ -39,7 +41,11 @@ export default function ThreadList({
   onMarkAllRead,
   onNewMessage,
   onMessage,
+  onArchiveThread,
+  onUnarchiveThread,
 }: ThreadListProps) {
+  const isArchived = categoryTab === "archived";
+
   return (
     <Box
       sx={{
@@ -62,15 +68,37 @@ export default function ThreadList({
           borderBottom: "1px solid #E5E7EB",
         }}
       >
-        <Box sx={{ fontSize: "18px", fontWeight: 600, color: "#062F29" }}>
-          Messages
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-          <IconButton variant="ghost" size="sm" onClick={onNewMessage}>
-            <Edit size={18} color="#6B7280" />
-          </IconButton>
-          <ThreadOptionsMenu onMarkAllRead={onMarkAllRead} />
-        </Box>
+        {isArchived ? (
+          <>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <IconButton
+                variant="ghost"
+                size="sm"
+                onClick={() => onCategoryChange("direct")}
+              >
+                <ArrowLeft size={18} color="#6B7280" />
+              </IconButton>
+              <Box sx={{ fontSize: "18px", fontWeight: 600, color: "#062F29" }}>
+                Archived
+              </Box>
+            </Box>
+          </>
+        ) : (
+          <>
+            <Box sx={{ fontSize: "18px", fontWeight: 600, color: "#062F29" }}>
+              Messages
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <IconButton variant="ghost" size="sm" onClick={onNewMessage}>
+                <Edit size={18} color="#6B7280" />
+              </IconButton>
+              <ThreadOptionsMenu
+                onMarkAllRead={onMarkAllRead}
+                onViewArchived={() => onCategoryChange("archived")}
+              />
+            </Box>
+          </>
+        )}
       </Box>
 
       {/* Search */}
@@ -91,7 +119,7 @@ export default function ThreadList({
             component="input"
             value={searchQuery}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onSearchChange(e.target.value)}
-            placeholder="Search messages"
+            placeholder={isArchived ? "Search archived" : "Search messages"}
             sx={{
               flex: 1,
               border: "none",
@@ -105,41 +133,43 @@ export default function ThreadList({
         </Box>
       </Box>
 
-      {/* Category tabs */}
-      <Box
-        sx={{
-          display: "flex",
-          px: 2,
-          gap: 0.5,
-          pb: 1,
-          overflowX: "auto",
-          "&::-webkit-scrollbar": { display: "none" },
-        }}
-      >
-        {tabs.map((tab) => (
-          <Box
-            key={tab.key}
-            onClick={() => onCategoryChange(tab.key)}
-            sx={{
-              px: 1.5,
-              py: 0.5,
-              borderRadius: "16px",
-              fontSize: "12px",
-              fontWeight: 500,
-              cursor: "pointer",
-              whiteSpace: "nowrap",
-              bgcolor: categoryTab === tab.key ? "#062F29" : "#F3F4F6",
-              color: categoryTab === tab.key ? "#FFFFFF" : "#6B7280",
-              transition: "all 0.15s ease",
-              "&:hover": {
-                bgcolor: categoryTab === tab.key ? "#062F29" : "#E5E7EB",
-              },
-            }}
-          >
-            {tab.label}
-          </Box>
-        ))}
-      </Box>
+      {/* Category tabs — hidden in archived view */}
+      {!isArchived && (
+        <Box
+          sx={{
+            display: "flex",
+            px: 2,
+            gap: 0.5,
+            pb: 1,
+            overflowX: "auto",
+            "&::-webkit-scrollbar": { display: "none" },
+          }}
+        >
+          {tabs.map((tab) => (
+            <Box
+              key={tab.key}
+              onClick={() => onCategoryChange(tab.key)}
+              sx={{
+                px: 1.5,
+                py: 0.5,
+                borderRadius: "16px",
+                fontSize: "12px",
+                fontWeight: 500,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+                bgcolor: categoryTab === tab.key ? "#062F29" : "#F3F4F6",
+                color: categoryTab === tab.key ? "#FFFFFF" : "#6B7280",
+                transition: "all 0.15s ease",
+                "&:hover": {
+                  bgcolor: categoryTab === tab.key ? "#062F29" : "#E5E7EB",
+                },
+              }}
+            >
+              {tab.label}
+            </Box>
+          ))}
+        </Box>
+      )}
 
       {/* Thread list */}
       <Box sx={{ flex: 1, overflowY: "auto" }}>
@@ -154,7 +184,7 @@ export default function ThreadList({
               color: "#9CA3AF",
             }}
           >
-            No conversations found
+            {isArchived ? "No archived conversations" : "No conversations found"}
           </Box>
         ) : (
           threads.map((thread) => (
@@ -164,6 +194,8 @@ export default function ThreadList({
               selected={thread.id === selectedThreadId}
               onClick={() => onSelectThread(thread.id)}
               onMessage={onMessage}
+              onArchive={() => onArchiveThread(thread.id)}
+              onUnarchive={() => onUnarchiveThread(thread.id)}
             />
           ))
         )}

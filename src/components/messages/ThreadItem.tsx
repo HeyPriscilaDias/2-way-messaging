@@ -1,18 +1,20 @@
 "use client";
 
-import { Box, Avatar } from "@willow/ui-kit";
+import { Box, Avatar, IconButton } from "@willow/ui-kit";
 import type { Thread } from "./mockData";
-import { users, currentUserId, getThreadDisplayName, getThreadAvatar, formatThreadTime } from "./mockData";
-import StudentProfileCard from "./StudentProfileCard";
+import { currentUserId, getThreadDisplayName, getThreadAvatar, formatThreadTime } from "./mockData";
+import ArchiveIcon from "./ArchiveIcon";
 
 interface ThreadItemProps {
   thread: Thread;
   selected: boolean;
   onClick: () => void;
   onMessage: (userId: string) => void;
+  onArchive: () => void;
+  onUnarchive: () => void;
 }
 
-export default function ThreadItem({ thread, selected, onClick, onMessage }: ThreadItemProps) {
+export default function ThreadItem({ thread, selected, onClick, onMessage, onArchive, onUnarchive }: ThreadItemProps) {
   const displayName = getThreadDisplayName(thread, currentUserId);
   const otherUser = getThreadAvatar(thread, currentUserId);
   const timeLabel = formatThreadTime(thread.lastMessageTime);
@@ -33,6 +35,10 @@ export default function ThreadItem({ thread, selected, onClick, onMessage }: Thr
         "&:hover": {
           bgcolor: selected ? "#F0F7F6" : "#F9FAFB",
         },
+        "&:hover .archive-btn": {
+          opacity: 1,
+        },
+        position: "relative",
       }}
     >
       {/* Avatar */}
@@ -93,23 +99,18 @@ export default function ThreadItem({ thread, selected, onClick, onMessage }: Thr
               mr: 1,
             }}
           >
-            {otherUser ? (
-              <StudentProfileCard user={otherUser} onMessage={onMessage}>
-                {displayName}
-              </StudentProfileCard>
-            ) : (
-              displayName
-            )}
+            {displayName}
           </Box>
-          <Box
-            sx={{
-              fontSize: "12px",
-              color: thread.unreadCount > 0 ? "#4C6A66" : "#9CA3AF",
-              whiteSpace: "nowrap",
-              flexShrink: 0,
-            }}
-          >
-            {timeLabel}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, flexShrink: 0 }}>
+            <Box
+              sx={{
+                fontSize: "12px",
+                color: thread.unreadCount > 0 ? "#4C6A66" : "#9CA3AF",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {timeLabel}
+            </Box>
           </Box>
         </Box>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -126,26 +127,47 @@ export default function ThreadItem({ thread, selected, onClick, onMessage }: Thr
           >
             {thread.lastMessage}
           </Box>
-          {thread.unreadCount > 0 && (
-            <Box
-              sx={{
-                minWidth: 20,
-                height: 20,
-                borderRadius: "10px",
-                bgcolor: "#4C6A66",
-                color: "#FFFFFF",
-                fontSize: "11px",
-                fontWeight: 600,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                px: 0.5,
-                flexShrink: 0,
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, flexShrink: 0 }}>
+            {thread.unreadCount > 0 && (
+              <Box
+                sx={{
+                  minWidth: 20,
+                  height: 20,
+                  borderRadius: "10px",
+                  bgcolor: "#4C6A66",
+                  color: "#FFFFFF",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  px: 0.5,
+                }}
+              >
+                {thread.unreadCount}
+              </Box>
+            )}
+            <IconButton
+              className="archive-btn"
+              variant="ghost"
+              size="sm"
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                thread.archived ? onUnarchive() : onArchive();
               }}
+              sx={{
+                opacity: 0,
+                transition: "opacity 0.15s ease",
+                width: 24,
+                height: 24,
+                minWidth: 24,
+                ...(thread.archived && { transform: "rotate(180deg)" }),
+              }}
+              title={thread.archived ? "Unarchive" : "Archive"}
             >
-              {thread.unreadCount}
-            </Box>
-          )}
+              <ArchiveIcon size={14} style={{ color: "#6B7280" }} />
+            </IconButton>
+          </Box>
         </Box>
       </Box>
     </Box>

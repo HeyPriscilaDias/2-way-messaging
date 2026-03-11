@@ -6,9 +6,10 @@ import { OptionsVertical } from "@willow/icons";
 
 interface ThreadOptionsMenuProps {
   onMarkAllRead: () => void;
+  onViewArchived: () => void;
 }
 
-export default function ThreadOptionsMenu({ onMarkAllRead }: ThreadOptionsMenuProps) {
+export default function ThreadOptionsMenu({ onMarkAllRead, onViewArchived }: ThreadOptionsMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -45,6 +46,7 @@ export default function ThreadOptionsMenu({ onMarkAllRead }: ThreadOptionsMenuPr
               { label: "New group", onClick: () => setOpen(false) },
               { label: "Select chats", onClick: () => setOpen(false) },
               { label: "Mark all as read", onClick: () => { onMarkAllRead(); setOpen(false); } },
+              { label: "Archived messages", onClick: () => { onViewArchived(); setOpen(false); } },
             ].map((item) => (
               <Box
                 key={item.label}
