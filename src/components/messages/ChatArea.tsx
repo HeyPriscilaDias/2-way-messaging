@@ -143,44 +143,6 @@ export default function ChatArea({
         </IconButton>
       </Box>
 
-      {/* Archived banner */}
-      {thread.archived && (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1,
-            px: 2,
-            py: 1,
-            bgcolor: "#FEF9C3",
-            borderBottom: "1px solid #FDE68A",
-          }}
-        >
-          <ArchiveIcon size={14} style={{ color: "#92400E", flexShrink: 0 }} />
-          <Box sx={{ fontSize: "12px", color: "#92400E", fontWeight: 500 }}>
-            This conversation is archived.
-          </Box>
-          <Box
-            component="button"
-            onClick={() => onUnarchiveThread(thread.id)}
-            sx={{
-              border: "none",
-              bgcolor: "transparent",
-              color: "#92400E",
-              fontSize: "12px",
-              fontWeight: 600,
-              cursor: "pointer",
-              textDecoration: "underline",
-              p: 0,
-              "&:hover": { color: "#78350F" },
-            }}
-          >
-            Unarchive
-          </Box>
-        </Box>
-      )}
-
       {/* Messages */}
       <Box
         ref={scrollRef}
@@ -207,12 +169,50 @@ export default function ChatArea({
         })}
       </Box>
 
-      {/* Input */}
-      <MessageInput
-        value={inputValue}
-        onChange={onInputChange}
-        onSend={onSend}
-      />
+      {/* Archived banner — shown at bottom instead of input */}
+      {thread.archived ? (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 1,
+            px: 2,
+            py: 1,
+            bgcolor: "#FEF9C3",
+            borderTop: "1px solid #FDE68A",
+            flexShrink: 0,
+          }}
+        >
+          <ArchiveIcon size={14} style={{ color: "#92400E", flexShrink: 0 }} />
+          <Box sx={{ fontSize: "12px", color: "#92400E", fontWeight: 500 }}>
+            This conversation is archived.
+          </Box>
+          <Box
+            component="button"
+            onClick={() => onUnarchiveThread(thread.id)}
+            sx={{
+              border: "none",
+              bgcolor: "transparent",
+              color: "#92400E",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+              textDecoration: "underline",
+              p: 0,
+              "&:hover": { color: "#78350F" },
+            }}
+          >
+            Unarchive
+          </Box>
+        </Box>
+      ) : (
+        <MessageInput
+          value={inputValue}
+          onChange={onInputChange}
+          onSend={onSend}
+        />
+      )}
     </Box>
   );
 }

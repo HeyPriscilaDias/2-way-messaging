@@ -81,6 +81,15 @@ grep -rn "@integration Ryan" src/
 - Blasts render as regular incoming messages in the student's thread list. When a student replies to a blast, it creates (or opens) a DM thread with the blast sender — this flow already exists via `blastReplyMeta`.
 - Empty state: "No messages yet" (no action prompt, since students can't initiate).
 
+## Thread row actions (kebab menu)
+
+### Decisions
+
+- **Each thread row has a 3-dot kebab menu** (replaces the standalone archive icon). The menu contains: Archive, Delete, and Mark Unread.
+- **Archived conversations stay open.** When a user archives the currently-viewed conversation, they remain in that chat view (not deselected). The archived banner and unarchive option are visible at the bottom.
+- **Archived banner lives at the bottom.** The yellow "This conversation is archived" banner with the Unarchive link renders at the bottom of the chat area, in place of the message input.
+- **No input for archived threads.** The message input is hidden when viewing an archived conversation. Users must unarchive first to send new messages.
+
 ## Toast notifications
 
 - [ ] **Wire up Toast for messaging events** — `src/components/Toast.tsx`

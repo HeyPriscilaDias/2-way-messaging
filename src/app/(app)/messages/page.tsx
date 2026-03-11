@@ -187,12 +187,22 @@ export default function MessagesPage() {
     setThreads((prev) => prev.map((t) => ({ ...t, unreadCount: 0 })));
   }, []);
 
-  const handleArchiveThread = useCallback(
+  const handleArchiveThread = useCallback((threadId: string) => {
+    setThreads((prev) =>
+      prev.map((t) => (t.id === threadId ? { ...t, archived: true } : t))
+    );
+  }, []);
+
+  const handleUnarchiveThread = useCallback((threadId: string) => {
+    setThreads((prev) =>
+      prev.map((t) => (t.id === threadId ? { ...t, archived: false } : t))
+    );
+  }, []);
+
+  const handleDeleteThread = useCallback(
     (threadId: string) => {
-      setThreads((prev) =>
-        prev.map((t) => (t.id === threadId ? { ...t, archived: true } : t))
-      );
-      // If archiving the selected thread, deselect it
+      setThreads((prev) => prev.filter((t) => t.id !== threadId));
+      setAllMessages((prev) => prev.filter((m) => m.threadId !== threadId));
       if (selectedThreadId === threadId) {
         setSelectedThreadId(null);
       }
@@ -200,9 +210,11 @@ export default function MessagesPage() {
     [selectedThreadId]
   );
 
-  const handleUnarchiveThread = useCallback((threadId: string) => {
+  const handleMarkThreadUnread = useCallback((threadId: string) => {
     setThreads((prev) =>
-      prev.map((t) => (t.id === threadId ? { ...t, archived: false } : t))
+      prev.map((t) =>
+        t.id === threadId ? { ...t, unreadCount: Math.max(t.unreadCount, 1) } : t
+      )
     );
   }, []);
 
@@ -320,6 +332,8 @@ export default function MessagesPage() {
         onMessage={handleSelectStudent}
         onArchiveThread={handleArchiveThread}
         onUnarchiveThread={handleUnarchiveThread}
+        onDeleteThread={handleDeleteThread}
+        onMarkThreadUnread={handleMarkThreadUnread}
       />
       {selectedBlast ? (
         <BlastDetailView

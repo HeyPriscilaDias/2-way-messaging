@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { Box, Avatar, IconButton } from "@willow/ui-kit";
+import { OptionsVertical } from "@willow/icons";
 import type { Thread } from "./mockData";
 import { currentUserId, getThreadDisplayName, getThreadAvatar, formatThreadTime } from "./mockData";
-import ArchiveIcon from "./ArchiveIcon";
 
 interface ThreadItemProps {
   thread: Thread;
@@ -12,9 +13,12 @@ interface ThreadItemProps {
   onMessage: (userId: string) => void;
   onArchive: () => void;
   onUnarchive: () => void;
+  onDelete: () => void;
+  onMarkUnread: () => void;
 }
 
-export default function ThreadItem({ thread, selected, onClick, onMessage, onArchive, onUnarchive }: ThreadItemProps) {
+export default function ThreadItem({ thread, selected, onClick, onMessage, onArchive, onUnarchive, onDelete, onMarkUnread }: ThreadItemProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const displayName = getThreadDisplayName(thread, currentUserId);
   const otherUser = getThreadAvatar(thread, currentUserId);
   const timeLabel = formatThreadTime(thread.lastMessageTime);
@@ -133,26 +137,86 @@ export default function ThreadItem({ thread, selected, onClick, onMessage, onArc
                 {thread.unreadCount}
               </Box>
             )}
-            <IconButton
-              className="archive-btn"
-              variant="ghost"
-              size="sm"
-              onClick={(e: React.MouseEvent) => {
-                e.stopPropagation();
-                thread.archived ? onUnarchive() : onArchive();
-              }}
-              sx={{
-                opacity: 0,
-                transition: "opacity 0.15s ease",
-                width: 24,
-                height: 24,
-                minWidth: 24,
-                ...(thread.archived && { transform: "rotate(180deg)" }),
-              }}
-              title={thread.archived ? "Unarchive" : "Archive"}
-            >
-              <ArchiveIcon size={14} style={{ color: "#6B7280" }} />
-            </IconButton>
+            <Box sx={{ position: "relative" }}>
+              <IconButton
+                className="archive-btn"
+                variant="ghost"
+                size="sm"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  setMenuOpen(!menuOpen);
+                }}
+                sx={{
+                  opacity: menuOpen ? 1 : 0,
+                  transition: "opacity 0.15s ease",
+                  width: 24,
+                  height: 24,
+                  minWidth: 24,
+                }}
+                title="Options"
+              >
+                <OptionsVertical size={14} color="#6B7280" />
+              </IconButton>
+
+              {menuOpen && (
+                <>
+                  <Box
+                    onClick={(e: React.MouseEvent) => {
+                      e.stopPropagation();
+                      setMenuOpen(false);
+                    }}
+                    sx={{ position: "fixed", inset: 0, zIndex: 999 }}
+                  />
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 28,
+                      right: 0,
+                      zIndex: 1000,
+                      bgcolor: "#FFFFFF",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+                      border: "1px solid #E5E7EB",
+                      minWidth: 160,
+                      py: 0.5,
+                    }}
+                  >
+                    {[
+                      {
+                        label: thread.archived ? "Unarchive" : "Archive",
+                        onClick: () => { thread.archived ? onUnarchive() : onArchive(); setMenuOpen(false); },
+                      },
+                      {
+                        label: "Delete",
+                        onClick: () => { onDelete(); setMenuOpen(false); },
+                      },
+                      {
+                        label: "Mark unread",
+                        onClick: () => { onMarkUnread(); setMenuOpen(false); },
+                      },
+                    ].map((item) => (
+                      <Box
+                        key={item.label}
+                        onClick={(e: React.MouseEvent) => {
+                          e.stopPropagation();
+                          item.onClick();
+                        }}
+                        sx={{
+                          px: 1.5,
+                          py: 1,
+                          fontSize: "13px",
+                          color: item.label === "Delete" ? "#DC2626" : "#374151",
+                          cursor: "pointer",
+                          "&:hover": { bgcolor: "#F3F4F6" },
+                        }}
+                      >
+                        {item.label}
+                      </Box>
+                    ))}
+                  </Box>
+                </>
+              )}
+            </Box>
           </Box>
         </Box>
       </Box>

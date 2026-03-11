@@ -34,6 +34,8 @@ interface ThreadListProps {
   onMessage: (userId: string) => void;
   onArchiveThread: (threadId: string) => void;
   onUnarchiveThread: (threadId: string) => void;
+  onDeleteThread: (threadId: string) => void;
+  onMarkThreadUnread: (threadId: string) => void;
 }
 
 const tabs: { key: CategoryTab; label: string }[] = [
@@ -59,6 +61,8 @@ export default function ThreadList({
   onMessage,
   onArchiveThread,
   onUnarchiveThread,
+  onDeleteThread,
+  onMarkThreadUnread,
 }: ThreadListProps) {
   const isArchived = categoryTab === "archived";
 
@@ -330,6 +334,8 @@ export default function ThreadList({
               onMessage={onMessage}
               onArchive={() => onArchiveThread(thread.id)}
               onUnarchive={() => onUnarchiveThread(thread.id)}
+              onDelete={() => onDeleteThread(thread.id)}
+              onMarkUnread={() => onMarkThreadUnread(thread.id)}
             />
           ))
         )}
