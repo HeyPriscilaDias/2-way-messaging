@@ -2,6 +2,15 @@
 
 import { Box, Avatar } from "@willow/ui-kit";
 import { MessageCircleReply } from "lucide-react";
+// TODO: Move blast.svg into @willow/icons and import as `import { Blast } from "@willow/icons"` for final build
+const BlastIcon = ({ size = 24, color = "currentColor" }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 14H18M6 14V21.5556C6 21.6734 6.05268 21.7865 6.14645 21.8698C6.24021 21.9532 6.36739 22 6.5 22H17.5C17.6326 22 17.7598 21.9532 17.8536 21.8698C17.9473 21.7865 18 21.6734 18 21.5556V14M6 14L12 18.8889L18 14" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10.0503 4.79289L12.1716 2.67157M12.1716 2.67157L14.2929 4.79289M12.1716 2.67157V8.32843" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 7.5L19 7.5M19 7.5L19 10.5M19 7.5L15 11.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M5 10.5L5 7.5M5 7.5L8 7.5M5 7.5L9 11.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 import type { Blast, Message } from "./mockData";
 import { users, formatMessageTime } from "./mockData";
 
@@ -52,7 +61,7 @@ export default function BlastDetailView({ blast, allMessages, onNavigateToThread
             flexShrink: 0,
           }}
         >
-          <MessageCircleReply size={18} color="#4C6A66" />
+          <BlastIcon size={18} color="#4C6A66" />
         </Box>
         <Box sx={{ flex: 1 }}>
           <Box sx={{ fontSize: "15px", fontWeight: 600, color: "#062F29" }}>
