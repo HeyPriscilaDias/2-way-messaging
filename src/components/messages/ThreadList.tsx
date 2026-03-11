@@ -6,7 +6,7 @@ import type { Thread } from "./mockData";
 import ThreadItem from "./ThreadItem";
 import ThreadOptionsMenu from "./ThreadOptionsMenu";
 
-export type CategoryTab = "direct" | "groups" | "broadcasts" | "unread";
+export type CategoryTab = "direct" | "groups" | "blasts" | "unread";
 
 interface ThreadListProps {
   threads: Thread[];
@@ -24,7 +24,7 @@ interface ThreadListProps {
 const tabs: { key: CategoryTab; label: string }[] = [
   { key: "direct", label: "Direct" },
   { key: "groups", label: "Groups" },
-  { key: "broadcasts", label: "Broadcasts" },
+  { key: "blasts", label: "Blasts" },
   { key: "unread", label: "Unread" },
 ];
 

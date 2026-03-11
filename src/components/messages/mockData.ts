@@ -16,7 +16,7 @@ export interface Message {
   deleted?: boolean;
 }
 
-export type ThreadType = "direct" | "group" | "broadcast";
+export type ThreadType = "direct" | "group" | "blast";
 
 export interface Thread {
   id: string;

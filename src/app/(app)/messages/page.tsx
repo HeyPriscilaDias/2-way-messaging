@@ -36,8 +36,8 @@ export default function MessagesPage() {
         if (thread.type !== "direct") return false;
       } else if (categoryTab === "groups") {
         if (thread.type !== "group") return false;
-      } else if (categoryTab === "broadcasts") {
-        if (thread.type !== "broadcast") return false;
+      } else if (categoryTab === "blasts") {
+        if (thread.type !== "blast") return false;
       }
 
       // Search filter
@@ -151,15 +151,15 @@ export default function MessagesPage() {
     []
   );
 
-  // Create broadcast threads — one per recipient, with the composed message
-  const handleCreateBroadcast = useCallback(
+  // Create blast threads — one per recipient, with the composed message
+  const handleCreateBlast = useCallback(
     (userIds: string[], message: string) => {
       const now = Date.now();
       const timestamp = new Date();
       const newThreads: Thread[] = userIds.map((userId, i) => ({
         id: `thread-${now}-${i}`,
         participants: [currentUserId, userId],
-        type: "broadcast" as const,
+        type: "blast" as const,
         lastMessage: message,
         lastMessageTime: timestamp,
         unreadCount: 0,
@@ -176,7 +176,7 @@ export default function MessagesPage() {
       if (newThreads.length > 0) {
         setSelectedThreadId(newThreads[0].id);
       }
-      setCategoryTab("broadcasts");
+      setCategoryTab("blasts");
       setInputValue("");
     },
     []
@@ -220,7 +220,7 @@ export default function MessagesPage() {
         onClose={() => setNewMessageOpen(false)}
         onSelectStudent={handleSelectStudent}
         onCreateGroup={handleCreateGroup}
-        onCreateBroadcast={handleCreateBroadcast}
+        onCreateBlast={handleCreateBlast}
       />
     </Box>
   );

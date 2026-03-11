@@ -5,14 +5,14 @@ import { Box, Avatar, IconButton } from "@willow/ui-kit";
 import { Search, X, ArrowLeft, Users, Share, Check } from "@willow/icons";
 import { getStudents, type User } from "./mockData";
 
-type DialogStep = "main" | "group-select" | "broadcast-select" | "broadcast-compose";
+type DialogStep = "main" | "group-select" | "blast-select" | "blast-compose";
 
 interface NewMessageDialogProps {
   open: boolean;
   onClose: () => void;
   onSelectStudent: (userId: string) => void;
   onCreateGroup: (userIds: string[]) => void;
-  onCreateBroadcast: (userIds: string[], message: string) => void;
+  onCreateBlast: (userIds: string[], message: string) => void;
 }
 
 export default function NewMessageDialog({
@@ -20,12 +20,12 @@ export default function NewMessageDialog({
   onClose,
   onSelectStudent,
   onCreateGroup,
-  onCreateBroadcast,
+  onCreateBlast,
 }: NewMessageDialogProps) {
   const [step, setStep] = useState<DialogStep>("main");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  const [broadcastMessage, setBroadcastMessage] = useState("");
+  const [blastMessage, setBlastMessage] = useState("");
 
   const students = useMemo(() => getStudents(), []);
 
@@ -39,13 +39,13 @@ export default function NewMessageDialog({
     setStep("main");
     setSearchQuery("");
     setSelectedUsers([]);
-    setBroadcastMessage("");
+    setBlastMessage("");
     onClose();
   };
 
   const handleBack = () => {
-    if (step === "broadcast-compose") {
-      setStep("broadcast-select");
+    if (step === "blast-compose") {
+      setStep("blast-select");
       return;
     }
     setStep("main");
@@ -66,27 +66,27 @@ export default function NewMessageDialog({
     if (step === "group-select") {
       onCreateGroup(selectedUsers);
       handleClose();
-    } else if (step === "broadcast-select") {
+    } else if (step === "blast-select") {
       // Move to compose step instead of creating threads
-      setStep("broadcast-compose");
+      setStep("blast-compose");
     }
   };
 
-  const handleSendBroadcast = () => {
-    if (selectedUsers.length === 0 || !broadcastMessage.trim()) return;
-    onCreateBroadcast(selectedUsers, broadcastMessage.trim());
+  const handleSendBlast = () => {
+    if (selectedUsers.length === 0 || !blastMessage.trim()) return;
+    onCreateBlast(selectedUsers, blastMessage.trim());
     handleClose();
   };
 
   if (!open) return null;
 
-  const isMultiSelect = step === "group-select" || step === "broadcast-select";
+  const isMultiSelect = step === "group-select" || step === "blast-select";
   const showBackArrow = step !== "main";
   const stepTitle =
     step === "group-select"
       ? "New group"
-      : step === "broadcast-select" || step === "broadcast-compose"
-      ? "New broadcast"
+      : step === "blast-select" || step === "blast-compose"
+      ? "New blast"
       : "New message";
 
   return (
@@ -148,7 +148,7 @@ export default function NewMessageDialog({
         </Box>
 
         {/* Steps 1 & 2: Search + student list */}
-        {step !== "broadcast-compose" && (
+        {step !== "blast-compose" && (
           <>
             {/* Search */}
             <Box sx={{ px: 2, py: 1.5, flexShrink: 0 }}>
@@ -240,10 +240,10 @@ export default function NewMessageDialog({
                 />
                 <ActionRow
                   icon={<Share size={18} color="#4C6A66" />}
-                  label="New broadcast"
+                  label="New blast"
                   description="Send the same message individually"
                   onClick={() => {
-                    setStep("broadcast-select");
+                    setStep("blast-select");
                     setSearchQuery("");
                   }}
                 />
@@ -334,8 +334,8 @@ export default function NewMessageDialog({
           </>
         )}
 
-        {/* Step 3: Compose broadcast */}
-        {step === "broadcast-compose" && (
+        {/* Step 3: Compose blast */}
+        {step === "blast-compose" && (
           <>
             {/* Recipient summary */}
             <Box
@@ -357,7 +357,7 @@ export default function NewMessageDialog({
                 </Box>
               </Box>
               <Box
-                onClick={() => setStep("broadcast-select")}
+                onClick={() => setStep("blast-select")}
                 sx={{
                   fontSize: "13px",
                   fontWeight: 500,
@@ -374,9 +374,9 @@ export default function NewMessageDialog({
             <Box sx={{ flex: 1, p: 2, display: "flex", flexDirection: "column" }}>
               <Box
                 component="textarea"
-                value={broadcastMessage}
+                value={blastMessage}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                  setBroadcastMessage(e.target.value)
+                  setBlastMessage(e.target.value)
                 }
                 placeholder="Write a message…"
                 sx={{
@@ -406,7 +406,7 @@ export default function NewMessageDialog({
             >
               <Box
                 component="button"
-                onClick={handleSendBroadcast}
+                onClick={handleSendBlast}
                 sx={{
                   width: "100%",
                   py: 1,
@@ -414,21 +414,21 @@ export default function NewMessageDialog({
                   border: "none",
                   borderRadius: "8px",
                   bgcolor:
-                    broadcastMessage.trim() ? "#062F29" : "#E5E7EB",
+                    blastMessage.trim() ? "#062F29" : "#E5E7EB",
                   color:
-                    broadcastMessage.trim() ? "#FFFFFF" : "#9CA3AF",
+                    blastMessage.trim() ? "#FFFFFF" : "#9CA3AF",
                   fontSize: "14px",
                   fontWeight: 600,
                   cursor:
-                    broadcastMessage.trim() ? "pointer" : "default",
+                    blastMessage.trim() ? "pointer" : "default",
                   transition: "all 0.15s ease",
                   "&:hover": {
                     bgcolor:
-                      broadcastMessage.trim() ? "#0A4A3F" : "#E5E7EB",
+                      blastMessage.trim() ? "#0A4A3F" : "#E5E7EB",
                   },
                 }}
               >
-                Send broadcast
+                Send blast
               </Box>
             </Box>
           </>
