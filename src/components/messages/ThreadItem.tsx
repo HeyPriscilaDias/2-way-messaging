@@ -55,20 +55,6 @@ export default function ThreadItem({ thread, selected, onClick, onMessage, onArc
           >
             {otherUser.initials}
           </Avatar>
-          {otherUser.online && (
-            <Box
-              sx={{
-                position: "absolute",
-                bottom: 0,
-                right: 0,
-                width: 10,
-                height: 10,
-                borderRadius: "50%",
-                bgcolor: "#22C55E",
-                border: "2px solid #FFFFFF",
-              }}
-            />
-          )}
         </Box>
       ) : (
         <Avatar

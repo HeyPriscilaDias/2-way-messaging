@@ -525,20 +525,6 @@ function StudentRow({
         >
           {student.initials}
         </Avatar>
-        {student.online && (
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-              width: 9,
-              height: 9,
-              borderRadius: "50%",
-              bgcolor: "#22C55E",
-              border: "2px solid #FFFFFF",
-            }}
-          />
-        )}
       </Box>
       <Box sx={{ flex: 1, fontSize: "14px", color: "#062F29" }}>
         {student.name}

@@ -99,20 +99,6 @@ export default function ChatArea({
             >
               {otherUser.initials}
             </Avatar>
-            {otherUser.online && (
-              <Box
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  width: 9,
-                  height: 9,
-                  borderRadius: "50%",
-                  bgcolor: "#22C55E",
-                  border: "2px solid #FFFFFF",
-                }}
-              />
-            )}
           </Box>
         ) : (
           <Avatar
@@ -131,9 +117,6 @@ export default function ChatArea({
           <Box sx={{ fontSize: "15px", fontWeight: 600, color: "#062F29" }}>
             {displayName}
           </Box>
-          {otherUser?.online && (
-            <Box sx={{ fontSize: "12px", color: "#22C55E" }}>Online</Box>
-          )}
           {thread.groupName && (
             <Box sx={{ fontSize: "12px", color: "#6B7280" }}>
               {thread.participants.length} members

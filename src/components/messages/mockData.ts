@@ -3,7 +3,6 @@ export interface User {
   name: string;
   initials: string;
   avatarColor: string;
-  online?: boolean;
   grade?: string;
 }
 
@@ -37,7 +36,6 @@ export const users: Record<string, User> = {
     name: "Maya Chen",
     initials: "MC",
     avatarColor: "#062F29",
-    online: true,
     grade: "Staff",
   },
   "user-1": {
@@ -45,7 +43,6 @@ export const users: Record<string, User> = {
     name: "Sarah Johnson",
     initials: "SJ",
     avatarColor: "#7C3AED",
-    online: true,
     grade: "11th Grade",
   },
   "user-2": {
@@ -53,7 +50,6 @@ export const users: Record<string, User> = {
     name: "James Wilson",
     initials: "JW",
     avatarColor: "#2563EB",
-    online: false,
     grade: "12th Grade",
   },
   "user-3": {
@@ -61,7 +57,6 @@ export const users: Record<string, User> = {
     name: "Emily Davis",
     initials: "ED",
     avatarColor: "#DC2626",
-    online: true,
     grade: "10th Grade",
   },
   "user-4": {
@@ -69,7 +64,6 @@ export const users: Record<string, User> = {
     name: "Michael Brown",
     initials: "MB",
     avatarColor: "#D97706",
-    online: false,
     grade: "11th Grade",
   },
   "user-5": {
@@ -77,7 +71,6 @@ export const users: Record<string, User> = {
     name: "Lisa Anderson",
     initials: "LA",
     avatarColor: "#059669",
-    online: true,
     grade: "9th Grade",
   },
   "user-6": {
@@ -85,7 +78,6 @@ export const users: Record<string, User> = {
     name: "David Kim",
     initials: "DK",
     avatarColor: "#4F46E5",
-    online: false,
     grade: "12th Grade",
   },
   "user-7": {
@@ -93,7 +85,6 @@ export const users: Record<string, User> = {
     name: "Rachel Torres",
     initials: "RT",
     avatarColor: "#E11D48",
-    online: true,
     grade: "10th Grade",
   },
   "user-8": {
@@ -101,7 +92,6 @@ export const users: Record<string, User> = {
     name: "Nathan Lee",
     initials: "NL",
     avatarColor: "#0891B2",
-    online: false,
     grade: "9th Grade",
   },
   "user-9": {
@@ -109,7 +99,6 @@ export const users: Record<string, User> = {
     name: "Olivia Martinez",
     initials: "OM",
     avatarColor: "#7C3AED",
-    online: true,
     grade: "11th Grade",
   },
   "user-10": {
@@ -117,7 +106,6 @@ export const users: Record<string, User> = {
     name: "Ethan Patel",
     initials: "EP",
     avatarColor: "#CA8A04",
-    online: false,
     grade: "12th Grade",
   },
 };
