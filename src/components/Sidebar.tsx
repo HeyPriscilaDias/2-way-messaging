@@ -1,6 +1,7 @@
 "use client";
 
 import "@/react-compat";
+import { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Box, Stack, Tooltip, IconButton } from "@willow/ui-kit";
@@ -16,6 +17,7 @@ import {
   OptionsVertical,
   ChatCircle,
 } from "@willow/icons";
+import { threads } from "@/components/messages/mockData";
 
 // Willow "W" symbol only
 function WillowMark() {
@@ -87,6 +89,10 @@ export default function Sidebar({ collapsed = false }: SidebarProps) {
   const pathname = usePathname();
   const activePageId = getActivePageId(pathname);
   const width = collapsed ? 60 : 220;
+  const totalUnread = useMemo(
+    () => threads.reduce((sum, t) => sum + t.unreadCount, 0),
+    [],
+  );
 
   return (
     <Box
@@ -182,10 +188,33 @@ export default function Sidebar({ collapsed = false }: SidebarProps) {
                     opacity: collapsed ? 0 : 1,
                     transition: "opacity 0.2s ease",
                     whiteSpace: "nowrap",
+                    flex: 1,
                   }}
                 >
                   {item.label}
                 </Box>
+                {item.id === "messages" && totalUnread > 0 && (
+                  <Box
+                    sx={{
+                      minWidth: 20,
+                      height: 20,
+                      borderRadius: "10px",
+                      bgcolor: "#4C6A66",
+                      color: "#FFFFFF",
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      px: 0.5,
+                      flexShrink: 0,
+                      opacity: collapsed ? 0 : 1,
+                      transition: "opacity 0.2s ease",
+                    }}
+                  >
+                    {totalUnread}
+                  </Box>
+                )}
               </Box>
             </Tooltip>
           );
