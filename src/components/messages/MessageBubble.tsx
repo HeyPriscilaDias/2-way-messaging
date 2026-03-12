@@ -66,27 +66,25 @@ export default function MessageBubble({ message, onDelete, onRetrySend, onMessag
     }, RETRY_COOLDOWN_MS);
   };
 
+  // Design: "You deleted" vs "was deleted" lets the counselor recall they took the action themselves.
   if (message.deleted) {
     return (
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
+          justifyContent: isOutgoing ? "flex-end" : "flex-start",
           py: 1,
           px: 2,
         }}
       >
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 0.75,
             fontSize: "13px",
             color: "#9CA3AF",
             fontStyle: "italic",
           }}
         >
-          This message was deleted
+          {isOutgoing ? "You deleted this message" : "This message was deleted"}
         </Box>
       </Box>
     );
@@ -304,7 +302,8 @@ export default function MessageBubble({ message, onDelete, onRetrySend, onMessag
           )}
         </Box>
 
-        {/* Design: Counselors can only delete their own sent messages; students cannot delete any messages. */}
+        {/* Design: Delete is scoped to the counselor's own outgoing messages — counselors should not be
+           able to remove messages sent by students or other participants. */}
         {hovered && isOutgoing && (
           <Box
             sx={{
