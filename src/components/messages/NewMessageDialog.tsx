@@ -2,7 +2,18 @@
 
 import { useState, useMemo } from "react";
 import { Box, Avatar, IconButton } from "@willow/ui-kit";
-import { Search, X, ArrowLeft, Users, Share, Check } from "@willow/icons";
+import { Search, X, ArrowLeft, Users, Check } from "@willow/icons";
+
+// Design: Uses the same custom BlastIcon SVG as ThreadList and BlastDetailView for consistent iconography across the app.
+// TODO: Move blast.svg into @willow/icons and import as `import { Blast } from "@willow/icons"` for final build
+const BlastIcon = ({ size = 24, color = "currentColor" }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 14H18M6 14V21.5556C6 21.6734 6.05268 21.7865 6.14645 21.8698C6.24021 21.9532 6.36739 22 6.5 22H17.5C17.6326 22 17.7598 21.9532 17.8536 21.8698C17.9473 21.7865 18 21.6734 18 21.5556V14M6 14L12 18.8889L18 14" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10.0503 4.79289L12.1716 2.67157M12.1716 2.67157L14.2929 4.79289M12.1716 2.67157V8.32843" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M16 7.5L19 7.5M19 7.5L19 10.5M19 7.5L15 11.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M5 10.5L5 7.5M5 7.5L8 7.5M5 7.5L9 11.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 import { getStudents, type User } from "./mockData";
 
 // Design: Blasts require a two-step flow (select recipients → compose message) while groups
@@ -232,22 +243,23 @@ export default function NewMessageDialog({
               </Box>
             )}
 
-            {/* Action rows (main step only) */}
+            {/* Design: Descriptions clarify the key behavioral difference — group replies are shared,
+                blast replies are private — so counselors pick the right mode before selecting students. */}
             {step === "main" && (
               <Box sx={{ flexShrink: 0 }}>
                 <ActionRow
                   icon={<Users size={18} color="#4C6A66" />}
                   label="New group"
-                  description="All members see each other's replies"
+                  description="Message multiple students in a shared conversation. Everyone can see each other's replies."
                   onClick={() => {
                     setStep("group-select");
                     setSearchQuery("");
                   }}
                 />
                 <ActionRow
-                  icon={<Share size={18} color="#4C6A66" />}
+                  icon={<BlastIcon size={18} color="#4C6A66" />}
                   label="New blast"
-                  description="Send the same message individually"
+                  description="Send one message to multiple students. Each reply comes back to you privately."
                   onClick={() => {
                     setStep("blast-select");
                     setSearchQuery("");
