@@ -66,6 +66,8 @@ export default function MessagesPage() {
   const selectedBlast = allBlasts.find((b) => b.id === selectedBlastId) ?? null;
   const threadMessages = allMessages.filter((m) => m.threadId === selectedThreadId);
 
+  // Design: Selecting a thread immediately marks it as read (unreadCount: 0). This is optimistic —
+  // don't wait for an API acknowledgment. The badge should disappear the instant the user clicks.
   const handleSelectThread = useCallback((threadId: string) => {
     setSelectedThreadId(threadId);
     setSelectedBlastId(null);
@@ -260,6 +262,8 @@ export default function MessagesPage() {
         });
       }
 
+      // Design: The "added" system message uses a +1ms timestamp offset so it always appears after
+      // the "removed" message in the chat. This preserves causality — removals render before additions.
       if (added.length > 0) {
         systemMessages.push({
           id: `msg-sys-${Date.now()}-added`,
@@ -278,6 +282,8 @@ export default function MessagesPage() {
     [threads]
   );
 
+  // Design: Uses Math.max(unreadCount, 1), not +1. If the thread already has unreads, keep the
+  // real count. If it was 0, set to 1. This prevents artificially inflating the badge.
   const handleMarkThreadUnread = useCallback((threadId: string) => {
     setThreads((prev) =>
       prev.map((t) =>

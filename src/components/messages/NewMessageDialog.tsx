@@ -5,6 +5,9 @@ import { Box, Avatar, IconButton } from "@willow/ui-kit";
 import { Search, X, ArrowLeft, Users, Share, Check } from "@willow/icons";
 import { getStudents, type User } from "./mockData";
 
+// Design: Blasts require a two-step flow (select recipients → compose message) while groups
+// create immediately after member selection. The extra compose step for blasts is intentional
+// friction — accidental blasts go to many students and can't be unsent.
 type DialogStep = "main" | "group-select" | "blast-select" | "blast-compose";
 
 interface NewMessageDialogProps {

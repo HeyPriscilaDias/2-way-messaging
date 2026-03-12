@@ -7,6 +7,9 @@ import type { Message } from "./mockData";
 import { users, currentUserId, formatMessageTime } from "./mockData";
 import MessageActionMenu from "./MessageActionMenu";
 
+// Design: Blast reply context is auto-truncated to the first sentence if the original blast is
+// multi-sentence, with an expand/collapse toggle. Single-sentence blasts show the full text
+// inline with no toggle. This keeps the reply context compact without hiding short messages.
 function getFirstSentence(text: string): string {
   const match = text.match(/^[^.!?]*[.!?]/);
   return match ? match[0] : text;
@@ -83,21 +86,6 @@ export default function MessageBubble({ message, onDelete, onRetrySend, onMessag
             fontStyle: "italic",
           }}
         >
-          <Box
-            sx={{
-              width: 16,
-              height: 16,
-              borderRadius: "50%",
-              border: "1.5px solid #9CA3AF",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "10px",
-              lineHeight: 1,
-            }}
-          >
-            ⊘
-          </Box>
           This message was deleted
         </Box>
       </Box>
@@ -316,13 +304,13 @@ export default function MessageBubble({ message, onDelete, onRetrySend, onMessag
           )}
         </Box>
 
-        {/* Action menu on hover */}
-        {hovered && (
+        {/* Design: Counselors can only delete their own sent messages; students cannot delete any messages. */}
+        {hovered && isOutgoing && (
           <Box
             sx={{
               position: "absolute",
-              top: isOutgoing ? 0 : 16,
-              [isOutgoing ? "left" : "right"]: -36,
+              top: 0,
+              left: -36,
             }}
           >
             <MessageActionMenu
