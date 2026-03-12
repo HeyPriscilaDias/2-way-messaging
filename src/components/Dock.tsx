@@ -42,6 +42,8 @@ const mockTasks = [
   { id: "6", title: "Email coach about Marcus's recruitment", studentName: "Marcus Johnson", status: "completed" as const },
 ];
 
+// Prototype: Alma suggestion chips are hardcoded.
+// TODO(agent): Generate contextually from student caseload data.
 const almaSuggestions = [
   "Which students need my attention most?",
   "How are we doing on FAFSA completion?",
@@ -206,8 +208,9 @@ export default function Dock() {
     setMessages((prev) => [...prev, userMsg]);
 
     /**
-     * @integration Ryan — Alma AI chat returns a static placeholder.
-     * Replace with real Alma AI integration.
+     * Prototype: Alma AI chat returns a static placeholder response after 500ms.
+     *
+     * @integration Ryan — Replace with real Alma AI integration.
      */
     const assistantMsg: ChatMessage = {
       role: "assistant",

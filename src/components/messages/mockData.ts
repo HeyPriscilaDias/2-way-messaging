@@ -41,6 +41,9 @@ export interface Blast {
   recipientIds: string[];
 }
 
+// Design: blastReplyMeta embeds the original blast text directly in each reply message.
+// This denormalization simplifies rendering but means blast edits won't propagate to existing replies.
+// TODO(agent): In prod, store only the blast ID and fetch text on demand to avoid stale content.
 export interface BlastReplyMeta {
   originalBlastId: string;
   originalBlastText: string;

@@ -30,7 +30,8 @@ export default function MessagesPage() {
   const [inputValue, setInputValue] = useState("");
   const [newMessageOpen, setNewMessageOpen] = useState(false);
 
-  // Filter threads based on search and category tab
+  // Design: Thread filtering embeds tab semantics — archived is a separate view (not a regular tab),
+  // unread cross-cuts both direct and group, and the blasts tab shows no threads at all (blasts render separately).
   const filteredThreads = threads
     .filter((thread) => {
       // Archived tab shows only archived threads; all other tabs hide archived
@@ -113,6 +114,7 @@ export default function MessagesPage() {
     setThreads((prev) =>
       prev.map((t) =>
         t.id === selectedThreadId
+          // Design: Sending a message auto-unarchives the thread — counselors shouldn't have to manually unarchive to resume a conversation.
           ? { ...t, lastMessage: newMessage.text, lastMessageTime: newMessage.timestamp, archived: false }
           : t
       )
@@ -170,7 +172,7 @@ export default function MessagesPage() {
     //   );
     // }
 
-    // Mock: simulate success after a short delay (remove when integrating)
+    // Prototype: Mock retry simulates success after 800ms. Remove this setTimeout block when integrating with the real API.
     setTimeout(() => {
       setAllMessages((prev) =>
         prev.map((m) => (m.id === messageId ? { ...m, sendStatus: undefined } : m))
@@ -179,6 +181,8 @@ export default function MessagesPage() {
     }, 800);
   }, []);
 
+  // Prototype: Delete is a client-side soft delete (sets deleted: true on the message object).
+  // TODO(agent): Implement server-side deletion with appropriate authorization checks.
   const handleDeleteMessage = useCallback((messageId: string) => {
     setAllMessages((prev) =>
       prev.map((m) => (m.id === messageId ? { ...m, deleted: true } : m))
@@ -292,7 +296,8 @@ export default function MessagesPage() {
     );
   }, []);
 
-  // Select a student → open or create a direct thread
+  // Design: Opening a conversation with a student reuses an existing direct thread if one exists,
+  // rather than creating a duplicate. The dedup check matches on type + both participants.
   const handleSelectStudent = useCallback(
     (userId: string) => {
       const existing = threads.find(

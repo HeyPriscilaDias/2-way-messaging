@@ -46,6 +46,7 @@ export default function MessageInput({ value, onChange, onSend }: MessageInputPr
     };
   }, []);
 
+  // Design: Enter sends the message; Shift+Enter inserts a newline. Matches the chat convention counselors expect.
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -223,6 +224,8 @@ export default function MessageInput({ value, onChange, onSend }: MessageInputPr
           py: 1.5,
         }}
       >
+        {/* Prototype: Emoji button is rendered but no picker is wired up. */}
+        {/* TODO(agent): Integrate an emoji picker (e.g., emoji-mart) that inserts at cursor position. */}
         <IconButton variant="ghost" size="sm" sx={{ flexShrink: 0 }}>
           <Smiley size={20} color="#6B7280" />
         </IconButton>

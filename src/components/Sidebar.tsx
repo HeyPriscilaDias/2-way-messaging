@@ -74,6 +74,7 @@ function WillowLogo() {
   );
 }
 
+// Prototype: Only the Messages nav item is active — all other routes are disabled stubs for layout context.
 const navItems = [
   { id: "home", label: "Home", icon: Home, href: "/", disabled: true },
   { id: "lessons", label: "Lessons", icon: BookOpen, href: "#", disabled: true },
@@ -231,7 +232,8 @@ export default function Sidebar({ collapsed = false }: SidebarProps) {
         })}
       </Stack>
 
-      {/* User profile */}
+      {/* Prototype: User profile is hardcoded to "Maya Chen". */}
+      {/* TODO(agent): Pull from auth/session context. */}
       <Box sx={{ mt: "auto", pl: 1.5, pr: 1, py: 1.5, overflow: "hidden" }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
           <Box

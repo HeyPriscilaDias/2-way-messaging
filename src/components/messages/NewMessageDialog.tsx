@@ -4,8 +4,8 @@ import { useState, useMemo } from "react";
 import { Box, Avatar, IconButton } from "@willow/ui-kit";
 import { Search, X, ArrowLeft, Users, Check } from "@willow/icons";
 
-// Design: Uses the same custom BlastIcon SVG as ThreadList and BlastDetailView for consistent iconography across the app.
-// TODO: Move blast.svg into @willow/icons and import as `import { Blast } from "@willow/icons"` for final build
+// Prototype: BlastIcon SVG is duplicated in ThreadList.tsx and BlastDetailView.tsx.
+// TODO(agent): Extract to a shared component or add to @willow/icons.
 const BlastIcon = ({ size = 24, color = "currentColor" }: { size?: number; color?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M6 14H18M6 14V21.5556C6 21.6734 6.05268 21.7865 6.14645 21.8698C6.24021 21.9532 6.36739 22 6.5 22H17.5C17.6326 22 17.7598 21.9532 17.8536 21.8698C17.9473 21.7865 18 21.6734 18 21.5556V14M6 14L12 18.8889L18 14" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -78,13 +78,14 @@ export default function NewMessageDialog({
     );
   };
 
+  // Design: Groups create immediately on confirm; blasts advance to a compose step first.
+  // The extra step prevents accidental blast sends to many students.
   const handleConfirm = () => {
     if (selectedUsers.length === 0) return;
     if (step === "group-select") {
       onCreateGroup(selectedUsers, groupName.trim() || undefined);
       handleClose();
     } else if (step === "blast-select") {
-      // Move to compose step instead of creating threads
       setStep("blast-compose");
     }
   };

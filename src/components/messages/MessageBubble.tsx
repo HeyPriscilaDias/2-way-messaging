@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Box, Avatar } from "@willow/ui-kit";
 import { ChevronDown, ChevronUp, RotateCcw, Loader2, AlertCircle } from "lucide-react";
+// Prototype: All data types and users are imported from local mock data.
+// TODO(agent): Replace with real API types and data fetching (e.g., React Query or server components).
 import type { Message } from "./mockData";
 import { users, currentUserId, formatMessageTime } from "./mockData";
 import MessageActionMenu from "./MessageActionMenu";
@@ -36,6 +38,8 @@ interface MessageBubbleProps {
  *
  * @integration Ryan — Adjust this value if the API has its own rate limiting.
  * 4 seconds is a reasonable default for user-facing retry actions.
+ *
+ * Prototype: Fixed cooldown value — prod should read from server config or use exponential backoff with jitter.
  */
 const RETRY_COOLDOWN_MS = 4000;
 
@@ -133,7 +137,11 @@ export default function MessageBubble({ message, onDelete, onRetrySend, onMessag
           sx={{
             px: 1.75,
             py: 1,
+            // Design: Asymmetric border radius (one tight corner) points toward the sender —
+            // a common chat convention that helps attribute messages without relying solely on alignment.
             borderRadius: isOutgoing ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+            // Design: Failed messages use red tones (bg + border + text) to clearly signal the error state,
+            // distinct from the normal outgoing/incoming palette.
             bgcolor: isFailed
               ? "#FEF2F2"
               : isOutgoing
@@ -147,12 +155,15 @@ export default function MessageBubble({ message, onDelete, onRetrySend, onMessag
             fontSize: "14px",
             lineHeight: 1.5,
             wordBreak: "break-word",
+            // Design: Dimmed opacity signals "in-flight" without removing the message from the conversation flow.
             opacity: isSending ? 0.6 : 1,
             border: isFailed ? "1px solid #FECACA" : "none",
             transition: "opacity 0.2s ease",
           }}
         >
           {/* Blast reply context */}
+          {/* TODO(agent): originalBlastText is embedded in each message — in prod, reference the blast by ID
+              and fetch its text to avoid data duplication and stale content. */}
           {message.blastReplyMeta && (() => {
             const blastText = message.blastReplyMeta.originalBlastText;
             const multiSentence = isMultiSentence(blastText);

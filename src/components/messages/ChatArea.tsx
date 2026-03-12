@@ -26,6 +26,8 @@ interface ChatAreaProps {
   onUpdateMembers: (threadId: string, newParticipantIds: string[]) => void;
 }
 
+// Design: Group actions use a multi-view dialog (actions → rename, actions → members) rather than
+// separate modals. This keeps the interaction contained and allows back-navigation within one dialog.
 type DialogView = "actions" | "rename" | "members";
 
 export default function ChatArea({
@@ -52,6 +54,8 @@ export default function ChatArea({
 
   const allStudents = useMemo(() => getStudents(), []);
 
+  // Prototype: Auto-scroll always jumps to bottom on new messages.
+  // TODO(agent): Only auto-scroll if the user is already near the bottom — preserve scroll position when reading history.
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -664,7 +668,8 @@ export default function ChatArea({
           }
           const msg = item as Message;
 
-          // System messages render as centered annotations (like date separators)
+          // Design: System messages (member added/removed) render as centered italic annotations,
+          // visually distinct from user message bubbles, similar to date separators.
           if (msg.systemText) {
             return (
               <Box

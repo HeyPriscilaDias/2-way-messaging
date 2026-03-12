@@ -41,6 +41,8 @@ interface ThreadListProps {
   onMarkThreadUnread: (threadId: string) => void;
 }
 
+// Design: "Archived" is deliberately not a tab — it's a separate view accessed via the overflow menu.
+// This prevents counselors from idly browsing archived threads alongside active ones.
 const tabs: { key: CategoryTab; label: string }[] = [
   { key: "direct", label: "Direct" },
   { key: "groups", label: "Groups" },
@@ -72,7 +74,9 @@ export default function ThreadList({
   return (
     <Box
       sx={{
-        width: 360,
+        // Prototype: Thread list width is fixed at 360px.
+      // TODO(agent): Consider making this responsive or resizable for different screen sizes.
+      width: 360,
         flexShrink: 0,
         borderRight: "1px solid #E5E7EB",
         display: "flex",
