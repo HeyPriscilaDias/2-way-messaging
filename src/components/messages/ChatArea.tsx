@@ -201,16 +201,15 @@ export default function ChatArea({
             </Avatar>
           </Box>
         ) : (
+          // Design: Group conversations display a Users icon rather than initials to visually distinguish them from 1:1 threads.
           <Avatar
             sx={{
               width: 36,
               height: 36,
               bgcolor: "#4C6A66",
-              fontSize: "13px",
-              fontWeight: 500,
             }}
           >
-            {thread.groupName?.[0] ?? "G"}
+            <Users size={18} color="#FFFFFF" />
           </Avatar>
         )}
         <Box sx={{ flex: 1, minWidth: 0 }}>

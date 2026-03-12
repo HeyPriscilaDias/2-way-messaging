@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Box, Avatar, IconButton } from "@willow/ui-kit";
-import { OptionsVertical } from "@willow/icons";
+import { OptionsVertical, Users } from "@willow/icons";
 import type { Thread } from "./mockData";
 import { currentUserId, getThreadDisplayName, getThreadAvatar, formatThreadTime } from "./mockData";
 
@@ -61,16 +61,15 @@ export default function ThreadItem({ thread, selected, onClick, onMessage, onArc
           </Avatar>
         </Box>
       ) : (
+        // Design: Group conversations display a Users icon rather than initials to visually distinguish them from 1:1 threads.
         <Avatar
           sx={{
             width: 40,
             height: 40,
             bgcolor: "#4C6A66",
-            fontSize: "14px",
-            fontWeight: 500,
           }}
         >
-          {thread.groupName?.[0] ?? "G"}
+          <Users size={20} color="#FFFFFF" />
         </Avatar>
       )}
 
