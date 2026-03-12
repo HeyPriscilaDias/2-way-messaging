@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * @integration Ryan — Wire up Toast for messaging events.
+ * Toast system exists (useToast hook) but is never used in messaging.
+ * Suggested uses: message send failure, archive/unarchive confirmation, upload failure.
+ */
 import { createContext, useContext, useState, useCallback } from "react";
 import { Box } from "@willow/ui-kit";
 import { Check, X } from "lucide-react";

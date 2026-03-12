@@ -16,6 +16,9 @@ import { formatThreadTime } from "./mockData";
 import ThreadItem from "./ThreadItem";
 import ThreadOptionsMenu from "./ThreadOptionsMenu";
 
+// Design: Students see blasts and DMs in a single unified list — no separate tabs or categories.
+// Blasts are labeled (e.g. subtle "Blast" tag) but otherwise render identically to DMs. This is
+// intentional: the delivery mechanism (blast vs. DM) is a counselor concern, not a student concern.
 export type CategoryTab = "direct" | "groups" | "blasts" | "unread" | "archived";
 
 interface ThreadListProps {

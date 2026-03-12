@@ -14,11 +14,18 @@ import { Send, X, RotateCcw, Loader2 } from "lucide-react";
  *   3. On failure: set status to "error" — the UI will show an error banner with retry
  *
  * The retry enforces a 4-second cooldown to prevent excessive upload attempts.
+ *
+ * Additional file upload TODOs:
+ * - Store the actual File object (not just the name) via a useRef<File | null> for retry attempts
+ * - On successful upload, store the returned file URL/ID to attach to the next message
  */
 type AttachmentStatus = "uploading" | "error" | null;
 
 const ATTACHMENT_RETRY_COOLDOWN_MS = 4000;
 
+// Design: Students cannot initiate conversations. There is no "New Message" button, no compose
+// flow, and no group or blast creation on the student side. Students can only reply to threads
+// started by staff.
 interface MessageInputProps {
   value: string;
   onChange: (value: string) => void;

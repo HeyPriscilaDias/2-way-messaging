@@ -17,6 +17,16 @@ import {
   OptionsVertical,
   ChatCircle,
 } from "@willow/icons";
+/**
+ * @integration Ryan — Sidebar badge reads from static mock data.
+ * `totalUnread` is computed from the imported `threads` constant, not from live state.
+ * It won't update when messages are read or new messages arrive.
+ * Needs to read from shared state (context, store, or API) instead of the mock import.
+ *
+ * Design: The unread badge in the sidebar must reflect live state — it should update when
+ * messages are read and when new messages arrive. Reading from static mock data is a known
+ * gap; this needs shared state or an API subscription, not a one-time fetch.
+ */
 import { threads } from "@/components/messages/mockData";
 
 // Willow "W" symbol only

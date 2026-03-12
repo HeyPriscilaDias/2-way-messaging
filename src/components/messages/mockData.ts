@@ -1,3 +1,30 @@
+/**
+ * @integration Ryan — Replace all mock data with real API calls.
+ * Keep the type definitions (Message, Thread, Blast, User, etc.) and utility functions.
+ * Replace the hardcoded arrays (threads, messages, blasts, users) with API fetches.
+ * Components importing from mockData.ts: ChatArea, MessageBubble, ThreadList, ThreadItem,
+ * BlastDetailView, NewMessageDialog, Sidebar, page.tsx.
+ *
+ * File upload additions needed:
+ * - Add an `attachments` field to the Message interface
+ * - Pass the uploaded file URL/ID from MessageInput to the send handler in page.tsx
+ *
+ * Student-side messaging decisions:
+ * - Students cannot initiate messages (no "New Message" button, no compose dialog)
+ * - No blast/DM distinction on the student side — blasts and DMs appear in one inbox
+ * - Blast messages should be labeled (e.g. a subtle "Blast" tag) so students know
+ *   it was sent to multiple people, but they live in the same list
+ * - No read receipts (no "seen" indicators, no read timestamps)
+ * - blastReplyMeta on Message already tracks blast-reply context for the counselor side
+ *
+ * What to build for students:
+ * - Student thread list: filtered to threads where the student is a participant.
+ *   No category tabs (or minimal: "All" / "Unread"). No archive controls.
+ * - Student chat view: same as counselor chat view, minus delete-message capability.
+ * - Blasts render as regular incoming messages. Replying creates/opens a DM thread
+ *   with the blast sender via blastReplyMeta (already exists).
+ * - Empty state: "No messages yet" (no action prompt since students can't initiate).
+ */
 export interface User {
   id: string;
   name: string;

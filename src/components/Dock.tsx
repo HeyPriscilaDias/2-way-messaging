@@ -29,7 +29,10 @@ function AlmaSparkle({ size = 24, color = "currentColor" }: { size?: number; col
   );
 }
 
-// Mock data
+/**
+ * @integration Ryan — Dock tasks are hardcoded.
+ * Replace this `mockTasks` array with a real task API.
+ */
 const mockTasks = [
   { id: "1", title: "Follow up on Maya's recommendation letters", studentName: "Maya Chen", status: "open" as const },
   { id: "2", title: "Review Tyler's safety school list", studentName: "Tyler Brooks", status: "open" as const },
@@ -202,7 +205,10 @@ export default function Dock() {
     const userMsg: ChatMessage = { role: "user", content: messageText };
     setMessages((prev) => [...prev, userMsg]);
 
-    // Static placeholder response
+    /**
+     * @integration Ryan — Alma AI chat returns a static placeholder.
+     * Replace with real Alma AI integration.
+     */
     const assistantMsg: ChatMessage = {
       role: "assistant",
       content: "Alma AI is not connected in this prototype. This is a placeholder response.",

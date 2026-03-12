@@ -187,6 +187,8 @@ export default function MessagesPage() {
     setThreads((prev) => prev.map((t) => ({ ...t, unreadCount: 0 })));
   }, []);
 
+  // Design: Archiving does NOT deselect the current conversation. The user stays in the chat
+  // view after archiving. Do not auto-navigate away or clear the active thread on archive.
   const handleArchiveThread = useCallback((threadId: string) => {
     setThreads((prev) =>
       prev.map((t) => (t.id === threadId ? { ...t, archived: true } : t))

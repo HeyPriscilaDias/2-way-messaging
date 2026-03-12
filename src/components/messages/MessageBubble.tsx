@@ -26,7 +26,10 @@ interface MessageBubbleProps {
 
 /**
  * RETRY_COOLDOWN_MS: Time in milliseconds before the retry button becomes active again.
- * This prevents users from spamming the retry button and overwhelming the API.
+ *
+ * Design: The 4-second retry cooldown is intentional — it prevents counselors from spam-clicking
+ * on failed messages and accidentally sending duplicates. Do not reduce this value for UX reasons.
+ * Only adjust if the real API enforces a stricter rate limit that conflicts with this.
  *
  * @integration Ryan — Adjust this value if the API has its own rate limiting.
  * 4 seconds is a reasonable default for user-facing retry actions.

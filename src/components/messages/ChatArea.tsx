@@ -706,6 +706,9 @@ export default function ChatArea({
       </Box>
 
       {/* Archived banner — shown at bottom instead of input */}
+      {/* Design: The message input is hidden entirely when viewing an archived conversation — do not
+          show a disabled input, hide it completely. The archived banner (with unarchive option) renders
+          at the bottom of the chat area in its place. Users must unarchive before they can send. */}
       {thread.archived ? (
         <Box
           sx={{
