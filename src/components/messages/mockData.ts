@@ -40,6 +40,8 @@ export interface Message {
   deleted?: boolean;
   blastReplyMeta?: BlastReplyMeta;
   sendStatus?: MessageSendStatus;
+  /** System-generated text (e.g. "X was added to this group"). Rendered as a centered annotation, not a bubble. */
+  systemText?: string;
 }
 
 export type ThreadType = "direct" | "group";
@@ -135,6 +137,26 @@ export const users: Record<string, User> = {
     avatarColor: "#CA8A04",
     grade: "12th Grade",
   },
+  "user-11": { id: "user-11", name: "Aiden Murphy", initials: "AM", avatarColor: "#6D28D9", grade: "10th Grade" },
+  "user-12": { id: "user-12", name: "Chloe Nguyen", initials: "CN", avatarColor: "#DB2777", grade: "11th Grade" },
+  "user-13": { id: "user-13", name: "Tyler Brooks", initials: "TB", avatarColor: "#0D9488", grade: "9th Grade" },
+  "user-14": { id: "user-14", name: "Sophia Ramirez", initials: "SR", avatarColor: "#EA580C", grade: "12th Grade" },
+  "user-15": { id: "user-15", name: "Brandon Scott", initials: "BS", avatarColor: "#4338CA", grade: "10th Grade" },
+  "user-16": { id: "user-16", name: "Isabella Thompson", initials: "IT", avatarColor: "#BE185D", grade: "11th Grade" },
+  "user-17": { id: "user-17", name: "Mason Rivera", initials: "MR", avatarColor: "#15803D", grade: "9th Grade" },
+  "user-18": { id: "user-18", name: "Ava Collins", initials: "AC", avatarColor: "#B91C1C", grade: "12th Grade" },
+  "user-19": { id: "user-19", name: "Jayden Foster", initials: "JF", avatarColor: "#1D4ED8", grade: "10th Grade" },
+  "user-20": { id: "user-20", name: "Mia Gonzalez", initials: "MG", avatarColor: "#9333EA", grade: "11th Grade" },
+  "user-21": { id: "user-21", name: "Caleb Hughes", initials: "CH", avatarColor: "#0F766E", grade: "9th Grade" },
+  "user-22": { id: "user-22", name: "Harper Bailey", initials: "HB", avatarColor: "#C2410C", grade: "12th Grade" },
+  "user-23": { id: "user-23", name: "Dylan Simmons", initials: "DS", avatarColor: "#7C3AED", grade: "10th Grade" },
+  "user-24": { id: "user-24", name: "Ella Wright", initials: "EW", avatarColor: "#E11D48", grade: "11th Grade" },
+  "user-25": { id: "user-25", name: "Jordan Cooper", initials: "JC", avatarColor: "#2563EB", grade: "9th Grade" },
+  "user-26": { id: "user-26", name: "Lily Morgan", initials: "LM", avatarColor: "#D97706", grade: "12th Grade" },
+  "user-27": { id: "user-27", name: "Noah Bennett", initials: "NB", avatarColor: "#059669", grade: "10th Grade" },
+  "user-28": { id: "user-28", name: "Zoe Patterson", initials: "ZP", avatarColor: "#DC2626", grade: "11th Grade" },
+  "user-29": { id: "user-29", name: "Lucas Reed", initials: "LR", avatarColor: "#4F46E5", grade: "9th Grade" },
+  "user-30": { id: "user-30", name: "Grace Sullivan", initials: "GS", avatarColor: "#0891B2", grade: "12th Grade" },
 };
 
 function daysAgo(days: number, hours = 10, minutes = 0): Date {
@@ -230,6 +252,24 @@ export const threads: Thread[] = [
     lastMessage: "I lost my permission slip, can I get another copy?",
     lastMessageTime: daysAgo(0, 10, 30),
     unreadCount: 1,
+  },
+  // Large group thread: 30 students
+  {
+    id: "thread-11",
+    participants: [
+      "user-me",
+      "user-1", "user-2", "user-3", "user-4", "user-5",
+      "user-6", "user-7", "user-8", "user-9", "user-10",
+      "user-11", "user-12", "user-13", "user-14", "user-15",
+      "user-16", "user-17", "user-18", "user-19", "user-20",
+      "user-21", "user-22", "user-23", "user-24", "user-25",
+      "user-26", "user-27", "user-28", "user-29", "user-30",
+    ],
+    groupName: "Junior Class Advisory",
+    type: "group",
+    lastMessage: "Please make sure to check your email for the permission slip link.",
+    lastMessageTime: daysAgo(0, 8, 45),
+    unreadCount: 0,
   },
 ];
 
@@ -470,6 +510,43 @@ export const messages: Message[] = [
       originalBlastId: "blast-2",
       originalBlastText: "Reminder: Junior class meeting tomorrow at 3pm in the auditorium. Please bring your signed permission slips for the field trip. Let me know if you have any questions!",
     },
+  },
+
+  // Thread 11: Junior Class Advisory (30-student group)
+  {
+    id: "msg-11-1",
+    threadId: "thread-11",
+    senderId: "user-me",
+    text: "Hi everyone! Welcome to the Junior Class Advisory group. I'll be using this thread to share important updates about college prep, field trips, and upcoming deadlines.",
+    timestamp: daysAgo(2, 9, 0),
+  },
+  {
+    id: "msg-11-2",
+    threadId: "thread-11",
+    senderId: "user-me",
+    text: "First up — the college fair is next Thursday from 3-5pm in the gym. Attendance is strongly encouraged. Over 40 schools will be represented.",
+    timestamp: daysAgo(2, 9, 5),
+  },
+  {
+    id: "msg-11-3",
+    threadId: "thread-11",
+    senderId: "user-14",
+    text: "Do we need to sign up ahead of time or can we just show up?",
+    timestamp: daysAgo(2, 9, 30),
+  },
+  {
+    id: "msg-11-4",
+    threadId: "thread-11",
+    senderId: "user-me",
+    text: "Just show up! No sign-up needed. Bring a pen and something to take notes on.",
+    timestamp: daysAgo(2, 9, 35),
+  },
+  {
+    id: "msg-11-5",
+    threadId: "thread-11",
+    senderId: "user-me",
+    text: "Please make sure to check your email for the permission slip link.",
+    timestamp: daysAgo(0, 8, 45),
   },
 ];
 

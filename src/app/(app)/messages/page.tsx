@@ -210,6 +210,72 @@ export default function MessagesPage() {
     [selectedThreadId]
   );
 
+  const handleRenameThread = useCallback((threadId: string, newName: string) => {
+    setThreads((prev) =>
+      prev.map((t) => (t.id === threadId ? { ...t, groupName: newName } : t))
+    );
+  }, []);
+
+  const handleUpdateMembers = useCallback(
+    (threadId: string, newParticipantIds: string[]) => {
+      const thread = threads.find((t) => t.id === threadId);
+      if (!thread) return;
+
+      const oldMembers = new Set(thread.participants);
+      const newMembers = new Set(newParticipantIds);
+
+      const added = newParticipantIds.filter((id) => !oldMembers.has(id));
+      const removed = thread.participants.filter(
+        (id) => id !== currentUserId && !newMembers.has(id)
+      );
+
+      // Update participants
+      setThreads((prev) =>
+        prev.map((t) =>
+          t.id === threadId ? { ...t, participants: newParticipantIds } : t
+        )
+      );
+
+      // Helper to format names with "and"
+      const formatNames = (ids: string[]) => {
+        const names = ids.map((id) => users[id]?.name ?? "Unknown");
+        if (names.length === 1) return names[0];
+        if (names.length === 2) return `${names[0]} and ${names[1]}`;
+        return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+      };
+
+      const now = new Date();
+      const systemMessages: Message[] = [];
+
+      if (removed.length > 0) {
+        systemMessages.push({
+          id: `msg-sys-${Date.now()}-removed`,
+          threadId,
+          senderId: currentUserId,
+          text: "",
+          timestamp: now,
+          systemText: `${formatNames(removed)} ${removed.length === 1 ? "was" : "were"} removed from this group`,
+        });
+      }
+
+      if (added.length > 0) {
+        systemMessages.push({
+          id: `msg-sys-${Date.now()}-added`,
+          threadId,
+          senderId: currentUserId,
+          text: "",
+          timestamp: new Date(now.getTime() + 1),
+          systemText: `${formatNames(added)} ${added.length === 1 ? "was" : "were"} added to this group`,
+        });
+      }
+
+      if (systemMessages.length > 0) {
+        setAllMessages((prev) => [...prev, ...systemMessages]);
+      }
+    },
+    [threads]
+  );
+
   const handleMarkThreadUnread = useCallback((threadId: string) => {
     setThreads((prev) =>
       prev.map((t) =>
@@ -261,11 +327,8 @@ export default function MessagesPage() {
 
   // Create a group thread
   const handleCreateGroup = useCallback(
-    (userIds: string[]) => {
-      const memberNames = userIds
-        .map((id) => users[id]?.name.split(" ")[0] ?? "Unknown")
-        .join(", ");
-      const groupName = memberNames;
+    (userIds: string[], customName?: string) => {
+      const groupName = customName || "Group thread";
 
       const newThread: Thread = {
         id: `thread-${Date.now()}`,
@@ -353,6 +416,9 @@ export default function MessagesPage() {
           onMessage={handleSelectStudent}
           onArchiveThread={handleArchiveThread}
           onUnarchiveThread={handleUnarchiveThread}
+          onDeleteThread={handleDeleteThread}
+          onRenameThread={handleRenameThread}
+          onUpdateMembers={handleUpdateMembers}
         />
       )}
       <NewMessageDialog

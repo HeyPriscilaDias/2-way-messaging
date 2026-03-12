@@ -11,7 +11,7 @@ interface NewMessageDialogProps {
   open: boolean;
   onClose: () => void;
   onSelectStudent: (userId: string) => void;
-  onCreateGroup: (userIds: string[]) => void;
+  onCreateGroup: (userIds: string[], groupName?: string) => void;
   onCreateBlast: (userIds: string[], message: string) => void;
 }
 
@@ -26,6 +26,7 @@ export default function NewMessageDialog({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [blastMessage, setBlastMessage] = useState("");
+  const [groupName, setGroupName] = useState("");
 
   const students = useMemo(() => getStudents(), []);
 
@@ -40,6 +41,7 @@ export default function NewMessageDialog({
     setSearchQuery("");
     setSelectedUsers([]);
     setBlastMessage("");
+    setGroupName("");
     onClose();
   };
 
@@ -51,6 +53,7 @@ export default function NewMessageDialog({
     setStep("main");
     setSearchQuery("");
     setSelectedUsers([]);
+    setGroupName("");
   };
 
   const toggleUser = (userId: string) => {
@@ -64,7 +67,7 @@ export default function NewMessageDialog({
   const handleConfirm = () => {
     if (selectedUsers.length === 0) return;
     if (step === "group-select") {
-      onCreateGroup(selectedUsers);
+      onCreateGroup(selectedUsers, groupName.trim() || undefined);
       handleClose();
     } else if (step === "blast-select") {
       // Move to compose step instead of creating threads
@@ -252,6 +255,34 @@ export default function NewMessageDialog({
                     height: "1px",
                     bgcolor: "#E5E7EB",
                     mx: 2,
+                  }}
+                />
+              </Box>
+            )}
+
+            {/* Group name input (group-select only) */}
+            {step === "group-select" && (
+              <Box sx={{ px: 2, pb: 1, flexShrink: 0 }}>
+                <Box
+                  component="input"
+                  value={groupName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setGroupName(e.target.value)
+                  }
+                  placeholder="Group thread"
+                  sx={{
+                    width: "100%",
+                    border: "1px solid #E5E7EB",
+                    borderRadius: "8px",
+                    px: 1.5,
+                    py: 0.75,
+                    fontSize: "13px",
+                    color: "#1F2937",
+                    outline: "none",
+                    fontFamily: "inherit",
+                    boxSizing: "border-box",
+                    "&::placeholder": { color: "#9CA3AF" },
+                    "&:focus": { borderColor: "#4C6A66" },
                   }}
                 />
               </Box>
