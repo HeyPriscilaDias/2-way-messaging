@@ -264,7 +264,7 @@ export default function ThreadList({
                       flexShrink: 0,
                     }}
                   >
-                    <BlastIcon size={16} color="#4C6A66" />
+                    <BlastIcon size={20} color="#4C6A66" />
                   </Box>
                   <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 0.25 }}>
